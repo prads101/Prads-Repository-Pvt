@@ -1,0 +1,15 @@
+{
+  "name": "Bread Production Calculator",
+  "short_name": "BreadCalc",
+  "icons": [
+    {
+      "src": "calculator.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#064e77"
+}
