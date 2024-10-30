@@ -635,9 +635,9 @@ function calculateWhiteDoughWeight(inputs) {
            (inputs.rye.large * 907) +
            (inputs.rye.tin * 907) +
            (inputs.black.small * 454) +
-           (inputs.marble.tin * 907) +
-           (inputs.bulka.qty * 907);
+           (inputs.marble.tin * 907);
 }
+
 
 function calculateWholemealDoughWeight(inputs) {
     return (inputs.wholemeal.large * 907) + 
@@ -840,9 +840,7 @@ function generateBreadsList(inputs) {
 function calculateRecipe() {
     // Get all input values
     const inputs = {
-        bulka: {
-            qty: getInputValue('bulka-qty')
-        },
+        
         white: {
             small: getInputValue('white-small'),
             large: getInputValue('white-large'),
@@ -858,6 +856,9 @@ function calculateRecipe() {
         },
         marble: {
             tin: getInputValue('marble-tin')
+        },
+        bulka: {
+            qty: getInputValue('bulka-qty')
         },
         wholemeal: {
             large: getInputValue('wholemeal-large'),
