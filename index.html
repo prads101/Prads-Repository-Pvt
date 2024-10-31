@@ -375,15 +375,15 @@ button:hover {
 @media print {
     @page {
         size: A4;
-        margin: 5mm; /* Reduced margin for better fit */
+        margin: 5mm;  /* Reduced margins */
     }
 
-    /* Container */
+    /* Reset container */
     .container {
         margin: 0 !important;
-        padding: 0 !important;
-        max-width: none !important;
+        padding: 10 px !important;
         box-shadow: none !important;
+        max-width: none !important;
     }
 
     /* Hide non-printing elements */
@@ -392,86 +392,100 @@ button:hover {
         display: none !important;
     }
 
-    /* Header */
+    /* Header styling */
     h1 {
-        font-size: 14pt !important; /* Smaller font for compact layout */
-        margin: 0 0 4mm 0 !important;
+        font-size: 14pt !important;
+        margin: 0 0 5mm 0 !important;
+        padding: 0 !important;
         color: black !important;
         background: none !important;
-        text-align: center;
-        padding: 0 !important;
+        -webkit-background-clip: unset !important;
+        background-clip: unset !important;
+        page-break-after: avoid !important;
+    }
+
+    h1::after {
+        display: none !important;
     }
 
     /* Output section layout */
     .output-section {
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
-        gap: 0 !important;
-        padding: 0 !important;
+        gap: 2mm !important;
+        padding: 5mm !important;
         margin: 0 !important;
         background: none !important;
         box-shadow: none !important;
+        position: relative !important;
+        clear: both !important;
     }
 
-    /* Table styling */
+    /* Table styles */
     .recipe-table,
     .breads-table {
         border-collapse: collapse !important;
         page-break-inside: avoid !important;
-        margin: 0 !important; /* Remove extra margin */
-        font-size: 14pt !important; /* Slightly reduced font size */
+        break-inside: avoid !important;
+        margin-bottom: 2mm !important;
+        font-size: 14pt !important;  /* Reduced font size */
         width: 100% !important;
     }
 
     .recipe-table th,
     .breads-table th {
-        background-color: #d3d3d3 !important; /* Standard background color */
-        padding: 2mm !important; /* Reduced padding */
+        background-color: #dcdcdc !important;
+        background-image: none !important;
+        border-top: 0.5pt solid black !important;
+        border-bottom: 0.5pt solid black !important;
+        padding: 1mm 2mm !important;  /* Reduced padding */
         font-weight: bold !important;
-        line-height: 1.2 !important;
+        line-height: 1.1 !important;
         color: black !important;
-        font-size: 14pt !important;
-        border: 1px solid #ccc !important;
+        font-size: 14pt !important;  /* Reduced font size */
     }
 
     .recipe-table td,
     .breads-table td {
-        padding: 2mm !important; /* Reduced padding for compactness */
-        line-height: 1.2 !important;
-        font-size: 14pt !important;
-        border: 1px solid #ccc !important;
+        border-bottom: 0.5pt solid black !important;
+        padding: 1mm 2mm !important;  /* Reduced padding */
+        line-height: 1.1 !important;
         background: white !important;
+        font-size: 13pt !important;  /* Reduced font size */
     }
 
-    /* Adjust row background for last row */
     .recipe-table tr:last-child td,
     .breads-table tr:last-child td {
-        background-color: #f5f5f5 !important;
+        background-color: #dcdcdc !important;
     }
 
-    /* Special row for "tin-row" */
     .breads-table tr.tin-row td {
-        background-color: #f5f5f5 !important;
+        background-color: #dcdcdc !important;
         font-weight: bold !important;
     }
 
-    /* Compact recipe tables container */
+    /* Adjust recipe tables container */
     .recipe-tables {
         display: grid !important;
         grid-template-columns: 1fr !important;
-        gap: 0 !important; /* Remove gaps */
+        gap: 2mm !important;
     }
 
-    /* Force exact print color settings */
+    /* Breads list adjustments */
+    .breads-list {
+        margin-top: 0 !important;
+    }
+
+    /* Force print settings */
     * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
         box-shadow: none !important;
     }
 
-    /* Restrict height to fit in A4 */
+    /* Ensure everything stays on one page */
     .output-wrapper {
-        max-height: 265mm !important; /* Tighter fit for A4 */
+        max-height: 297mm !important;  /* A4 height */
         overflow: hidden !important;
     }
 }
