@@ -375,13 +375,13 @@ button:hover {
 @media print {
     @page {
         size: A4;
-        margin: 10mm; /* Margin for better fit on A4 */
+        margin: 5mm; /* Reduced margin for better fit */
     }
 
     /* Container */
     .container {
         margin: 0 !important;
-        padding: 5mm !important;
+        padding: 0 !important;
         max-width: none !important;
         box-shadow: none !important;
     }
@@ -394,22 +394,21 @@ button:hover {
 
     /* Header */
     h1 {
-        font-size: 15pt !important;
-        margin: 0 0 8mm 0 !important;
+        font-size: 14pt !important; /* Smaller font for compact layout */
+        margin: 0 0 4mm 0 !important;
         color: black !important;
         background: none !important;
-        -webkit-background-clip: unset !important;
-        background-clip: unset !important;
         text-align: center;
         padding: 0 !important;
     }
 
-    /* Output section */
+    /* Output section layout */
     .output-section {
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
-        gap: 4mm !important;
-        padding: 4mm !important;
+        gap: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
         background: none !important;
         box-shadow: none !important;
     }
@@ -419,49 +418,51 @@ button:hover {
     .breads-table {
         border-collapse: collapse !important;
         page-break-inside: avoid !important;
-        margin-bottom: 2mm !important;
-        font-size: 12pt !important; /* Slightly smaller font */
+        margin: 0 !important; /* Remove extra margin */
+        font-size: 14pt !important; /* Slightly reduced font size */
         width: 100% !important;
     }
 
     .recipe-table th,
     .breads-table th {
-        background-color: #eaeaea !important;
-        padding: 3mm 4mm !important; /* Compact padding */
+        background-color: #d3d3d3 !important; /* Standard background color */
+        padding: 2mm !important; /* Reduced padding */
         font-weight: bold !important;
         line-height: 1.2 !important;
         color: black !important;
-        font-size: 12pt !important;
+        font-size: 14pt !important;
         border: 1px solid #ccc !important;
     }
 
     .recipe-table td,
     .breads-table td {
-        padding: 3mm 4mm !important; /* Compact padding */
+        padding: 2mm !important; /* Reduced padding for compactness */
         line-height: 1.2 !important;
-        font-size: 12pt !important;
-        border: 1px solid #ddd !important;
+        font-size: 14pt !important;
+        border: 1px solid #ccc !important;
         background: white !important;
     }
 
+    /* Adjust row background for last row */
     .recipe-table tr:last-child td,
     .breads-table tr:last-child td {
         background-color: #f5f5f5 !important;
     }
 
+    /* Special row for "tin-row" */
     .breads-table tr.tin-row td {
         background-color: #f5f5f5 !important;
         font-weight: bold !important;
     }
 
-    /* Adjust recipe tables container */
+    /* Compact recipe tables container */
     .recipe-tables {
         display: grid !important;
         grid-template-columns: 1fr !important;
-        gap: 2mm !important;
+        gap: 0 !important; /* Remove gaps */
     }
 
-    /* Force print color and adjustments */
+    /* Force exact print color settings */
     * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
@@ -470,10 +471,11 @@ button:hover {
 
     /* Restrict height to fit in A4 */
     .output-wrapper {
-        max-height: 270mm !important;
+        max-height: 265mm !important; /* Tighter fit for A4 */
         overflow: hidden !important;
     }
 }
+
 
 
     </style>
