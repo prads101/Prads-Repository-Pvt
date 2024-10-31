@@ -375,13 +375,13 @@ button:hover {
 @media print {
     @page {
         size: A4;
-        margin: 5mm;  /* Reduced margins */
+        margin: 10mm; /* Slightly larger margins for readability */
     }
 
     /* Reset container */
     .container {
         margin: 0 !important;
-        padding: 5px !important;
+        padding: 10px !important;
         box-shadow: none !important;
         max-width: none !important;
     }
@@ -394,14 +394,15 @@ button:hover {
 
     /* Header styling */
     h1 {
-        font-size: 14pt !important;
-        margin: 0 0 5mm 0 !important;
+        font-size: 16pt !important; /* Slightly larger for readability */
+        margin: 0 0 10mm 0 !important;
         padding: 0 !important;
         color: black !important;
         background: none !important;
         -webkit-background-clip: unset !important;
         background-clip: unset !important;
         page-break-after: avoid !important;
+        text-align: center;
     }
 
     h1::after {
@@ -413,7 +414,7 @@ button:hover {
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
         gap: 5mm !important;
-        padding: 0 !important;
+        padding: 5mm !important;
         margin: 0 !important;
         background: none !important;
         box-shadow: none !important;
@@ -426,9 +427,8 @@ button:hover {
     .breads-table {
         border-collapse: collapse !important;
         page-break-inside: avoid !important;
-        break-inside: avoid !important;
-        margin-bottom: 2mm !important;
-        font-size: 13pt !important;  /* Reduced font size */
+        margin-bottom: 4mm !important;
+        font-size: 13pt !important; /* Minimum font size 13pt */
         width: 100% !important;
     }
 
@@ -436,22 +436,22 @@ button:hover {
     .breads-table th {
         background-color: #dcdcdc !important;
         background-image: none !important;
-        border-top: 0.5pt solid black !important;
-        border-bottom: 0.5pt solid black !important;
-        padding: 1mm 3mm !important;  /* Reduced padding */
+        border-top: 1px solid black !important;
+        border-bottom: 1px solid black !important;
+        padding: 4mm 6mm !important; /* Increase padding */
         font-weight: bold !important;
-        line-height: 1.3 !important;
+        line-height: 1.2 !important;
         color: black !important;
-        font-size: 13pt !important;  /* Reduced font size */
+        font-size: 13pt !important; /* Minimum font size 13pt */
     }
 
     .recipe-table td,
     .breads-table td {
-        border-bottom: 0.5pt solid black !important;
-        padding: 1mm 3mm !important;  /* Reduced padding */
-        line-height: 1.3 !important;
+        border-bottom: 1px solid black !important;
+        padding: 4mm 6mm !important; /* Increase padding */
+        line-height: 1.2 !important;
         background: white !important;
-        font-size: 13pt !important;  /* Reduced font size */
+        font-size: 13pt !important; /* Minimum font size 13pt */
     }
 
     .recipe-table tr:last-child td,
@@ -468,12 +468,13 @@ button:hover {
     .recipe-tables {
         display: grid !important;
         grid-template-columns: 1fr !important;
-        gap: 3mm !important;
+        gap: 4mm !important;
     }
 
     /* Breads list adjustments */
     .breads-list {
         margin-top: 0 !important;
+        padding: 5mm !important;
     }
 
     /* Force print settings */
@@ -485,7 +486,7 @@ button:hover {
 
     /* Ensure everything stays on one page */
     .output-wrapper {
-        max-height: 297mm !important;  /* A4 height */
+        max-height: 277mm !important;  /* Adjusted height for A4 */
         overflow: hidden !important;
     }
 }
