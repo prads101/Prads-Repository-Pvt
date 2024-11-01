@@ -9,18 +9,20 @@
     <title>Bread Production Calculator</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         /* Modern CSS Reset and Variables */
+/* Modern CSS Reset and Variables */
 :root {
     --primary: #064e77;
     --primary-dark: #0a727a;
     --success: #16a34a;
     --danger: #dc2626;
-    --background: #ffffff; /* Changed to a standard white background */
-    --surface: #f7f7f7;    /* Lightened surface color */
-    --text: #333333;       /* Darker, neutral text color */
-    --border: #dcdcdc;     /* Lightened border color */
+    --background: #ffffff;
+    --surface: #f7f7f7;
+    --text: #333333;
+    --border: #dcdcdc;
     --radius: 12px;
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-    --header-background: #f5f5f5; /* New variable for header background */
+    --header-background: #064e77;
+    --table-header-bg: linear-gradient(to right, #064e77, #0a727a);
 }
 
 * {
@@ -55,7 +57,7 @@ h1 {
     margin-bottom: 2rem;
     font-size: 2.5rem;
     font-weight: 800;
-    background: linear-gradient(to right, var(--primary), var(--primary-dark));
+    background: var(--table-header-bg);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -71,7 +73,7 @@ h1::after {
     transform: translateX(-50%);
     width: 100px;
     height: 4px;
-    background: linear-gradient(to right, var(--primary), var(--primary-dark));
+    background: var(--table-header-bg);
     border-radius: 2px;
 }
 
@@ -148,7 +150,7 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"]:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(235, 166, 37, 0.295);
+    box-shadow: 0 0 0 3px rgba(6, 78, 119, 0.2);
 }
 
 /* Output Section */
@@ -172,7 +174,8 @@ input[type="number"]:focus {
 }
 
 /* Table Styles */
-.recipe-table, .breads-table {
+.recipe-table, 
+.breads-table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
@@ -185,7 +188,7 @@ input[type="number"]:focus {
 
 .recipe-table th,
 .breads-table th {
-    background: linear-gradient(to right, var(--primary), var(--primary-dark));
+    background: var(--table-header-bg);
     color: white;
     font-size: 1.2rem;
     text-transform: uppercase;
@@ -271,7 +274,6 @@ button:hover {
         flex-direction: column;
     }
 
-    /* Header */
     h1 {
         font-size: 1.2rem;
         margin: 0.5rem 0;
@@ -279,7 +281,6 @@ button:hover {
         order: 1;
     }
 
-    /* Input section */
     .input-section {
         display: flex;
         flex-direction: column;
@@ -288,13 +289,11 @@ button:hover {
         order: 2;
     }
 
-    /* Bread category cards */
     .bread-category {
         padding: 1rem;
         margin: 0;
         border: 1px solid var(--border);
         border-radius: 0.5rem;
-        background: var(--surface);
     }
 
     .bread-category h3 {
@@ -303,7 +302,6 @@ button:hover {
         padding-bottom: 0.5rem;
     }
 
-    /* Input groups */
     .input-group {
         display: flex;
         align-items: center;
@@ -321,11 +319,8 @@ button:hover {
         width: 80px;
         padding: 0.5rem;
         font-size: 1.1rem;
-        border: 2px solid var(--border);
-        border-radius: 4px;
     }
 
-    /* Buttons */
     .buttons {
         padding: 1rem 0;
         display: flex;
@@ -341,7 +336,6 @@ button:hover {
         margin: 0;
     }
 
-    /* Output section */
     .output-wrapper {
         order: 4;
     }
@@ -353,7 +347,6 @@ button:hover {
         border-radius: 0.5rem;
     }
 
-    /* Tables */
     .recipe-table,
     .breads-table {
         margin-bottom: 1rem;
@@ -373,13 +366,13 @@ button:hover {
     }
 }
 
+/* Print Styles */
 @media print {
     @page {
         size: A4;
         margin: 5mm;
     }
 
-    /* Reset container */
     .container {
         margin: 0 !important;
         padding: 0 !important;
@@ -387,13 +380,11 @@ button:hover {
         max-width: none !important;
     }
 
-    /* Hide non-printing elements */
     .input-section,
     .buttons {
         display: none !important;
     }
 
-    /* Header styling */
     h1 {
         font-size: 14pt !important;
         margin: 0 !important;
@@ -408,47 +399,43 @@ button:hover {
         display: none !important;
     }
 
-    /* Output section layout */
     .output-section {
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
-        gap: 3mm !important; /* Adds space between tables */
+        gap: 3mm !important;
         padding: 0 !important;
         margin: 0 !important;
         background: none !important;
         box-shadow: none !important;
+        opacity: 1 !important;
+        transform: none !important;
     }
 
-    /* Table styles */
     .recipe-table,
     .breads-table {
         border-collapse: collapse !important;
         page-break-inside: avoid !important;
         margin: 0 !important;
         width: 100% !important;
+        box-shadow: none !important;
     }
 
     .recipe-table th,
-.breads-table th {
-    background-color: #f5f5f5 !important;
-    border-top: 0.5pt solid var(--border) !important;
-    border-bottom: 0.5pt solid var(--border) !important;
-    padding: 1mm 2mm !important;
-    font-weight: bold !important;
-    color: black !important;
-    text-align: left;
+    .breads-table th {
+        background: #e5e5e5 !important;
+        background-image: none !important;
+        color: black !important;
+        border: 1px solid #000 !important;
+        padding: 2mm !important;
+        font-weight: bold !important;
+        text-align: left !important;
     }
 
     .recipe-table td,
     .breads-table td {
-        border-bottom: 0.5pt solid black !important;
-        padding: 1mm 2mm !important;
+        border: 1px solid #000 !important;
+        padding: 2mm !important;
         background: white !important;
-    }
-
-    .recipe-table tr:last-child td,
-    .breads-table tr:last-child td {
-        background-color: #f5f5f5 !important;
     }
 
     .breads-table tr.tin-row td {
@@ -456,34 +443,21 @@ button:hover {
         font-weight: bold !important;
     }
 
-    /* Adjust recipe tables container */
-    .recipe-tables {
-        display: grid !important;
-        grid-template-columns: 1fr !important;
-        gap: 3mm !important; /* Space between tables */
+    .recipe-table tr:last-child td {
+        background-color: #f5f5f5 !important;
+        font-weight: bold !important;
     }
 
-    /* Breads list adjustments */
-    .breads-list {
-        margin-top: 0 !important;
-    }
-
-    /* Force print settings */
     * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
-        box-shadow: none !important;
     }
 
-    /* Restrict height to fit on one A4 page */
     .output-wrapper {
         max-height: 280mm !important;
         overflow: hidden !important;
     }
 }
-
-
-
     </style>
 </head>
 <body>
