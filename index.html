@@ -704,17 +704,17 @@ function calculateGranaryRecipe(totalDoughWeight) {
 }
 
 // Table generation
-// Table generation
 function generateRecipeTable(title, recipe) {
     if (recipe.total === 0) return '';
     
     let rows = '';
     if ('flour' in recipe) {
-        // White bread recipe
+        // White bread recipe - show bags in header
+        const bagInfo = formatBags(recipe.flour);
         rows += `
             <tr>
                 <td>Heygate Flour</td>
-                <td>${formatWeight(recipe.flour)} ${formatBags(recipe.flour)}</td>
+                <td>${formatWeight(recipe.flour)}</td>
                 <td>${formatPercentage(recipe.percentages.flour)}</td>
             </tr>
             <tr>
@@ -723,9 +723,40 @@ function generateRecipeTable(title, recipe) {
                 <td>${formatPercentage(recipe.percentages.water)}</td>
             </tr>
         `;
+        
+        return `
+            <table class="recipe-table">
+                <thead>
+                    <tr>
+                        <th colspan="3">${title} ${bagInfo}</th>
+                    </tr>
+                </thead>
+                <tbody>${rows}
+                    <tr>
+                        <td>Salt</td>
+                        <td>${formatWeight(recipe.salt)}</td>
+                        <td>${formatPercentage(recipe.percentages.salt)}</td>
+                    </tr>
+                    <tr>
+                        <td>Yeast (Fresh)</td>
+                        <td>${formatWeight(recipe.yeast)}</td>
+                        <td>${formatPercentage(recipe.percentages.yeast)}</td>
+                    </tr>
+                    <tr>
+                        <td>Oil (S500)</td>
+                        <td>${formatWeight(recipe.oil)}</td>
+                        <td>${formatPercentage(recipe.percentages.oil)}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Dough Weight</strong></td>
+                        <td><strong>${formatWeight(recipe.total)}</strong></td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
     } else {
-        // Wholemeal/Granary bread recipes
-        let totalFlour = recipe.heygate + (recipe.wholemeal || recipe.granary);
+        // Wholemeal/Granary bread recipes - no bags info
         rows += `
             <tr>
                 <td>Heygate Flour</td>
@@ -737,47 +768,46 @@ function generateRecipeTable(title, recipe) {
                 <td>${formatWeight(recipe.wholemeal || recipe.granary)}</td>
                 <td>${formatPercentage(recipe.percentages.wholemeal || recipe.percentages.granary)}</td>
             </tr>
-           
             <tr>
                 <td>Water</td>
                 <td>${formatVolume(recipe.water)}</td>
                 <td>${formatPercentage(recipe.percentages.water)}</td>
             </tr>
         `;
+        
+        return `
+            <table class="recipe-table">
+                <thead>
+                    <tr>
+                        <th colspan="3">${title}</th>
+                    </tr>
+                </thead>
+                <tbody>${rows}
+                    <tr>
+                        <td>Salt</td>
+                        <td>${formatWeight(recipe.salt)}</td>
+                        <td>${formatPercentage(recipe.percentages.salt)}</td>
+                    </tr>
+                    <tr>
+                        <td>Yeast (Fresh)</td>
+                        <td>${formatWeight(recipe.yeast)}</td>
+                        <td>${formatPercentage(recipe.percentages.yeast)}</td>
+                    </tr>
+                    <tr>
+                        <td>Oil (S500)</td>
+                        <td>${formatWeight(recipe.oil)}</td>
+                        <td>${formatPercentage(recipe.percentages.oil)}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Dough Weight</strong></td>
+                        <td><strong>${formatWeight(recipe.total)}</strong></td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
     }
-    
-    // Common ingredients
-    rows += `
-        <tr>
-            <td>Salt</td>
-            <td>${formatWeight(recipe.salt)}</td>
-            <td>${formatPercentage(recipe.percentages.salt)}</td>
-        </tr>
-        <tr>
-            <td>Yeast (Fresh)</td>
-            <td>${formatWeight(recipe.yeast)}</td>
-            <td>${formatPercentage(recipe.percentages.yeast)}</td>
-        </tr>
-        <tr>
-            <td>Oil (S500)</td>
-            <td>${formatWeight(recipe.oil)}</td>
-            <td>${formatPercentage(recipe.percentages.oil)}</td>
-        </tr>
-        <tr>
-            <td><strong>Total Dough Weight</strong></td>
-            <td><strong>${formatWeight(recipe.total)}</strong></td>
-            <td>-</td>
-        </tr>
-    `;
-
-    return `
-        <table class="recipe-table">
-            <thead><tr><th colspan="3">${title}</th></tr></thead>
-            <tbody>${rows}</tbody>
-        </table>
-    `;
 }
-
 function generateBreadsList(inputs) {
     let html = `
     <table class="breads-table">
