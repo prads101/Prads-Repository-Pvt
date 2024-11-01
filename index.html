@@ -11,7 +11,7 @@
         /* Modern CSS Reset and Variables */
 /* Modern CSS Reset and Variables */
 :root {
-    --primary: #064e77;
+   -primary: #064e77;
     --primary-dark: #0a727a;
     --success: #16a34a;
     --danger: #dc2626;
@@ -22,7 +22,6 @@
     --radius: 12px;
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
     --header-background: #064e77;
-    --table-header-bg: linear-gradient(to right, #064e77, #0a727a);
 }
 
 * {
@@ -355,9 +354,14 @@ button:hover {
     }
 
     .recipe-table th,
-    .breads-table th {
-        padding: 0.5rem;
-        font-size: 1.1rem;
+.breads-table th {
+    background: #064e77; /* Solid color instead of gradient */
+    color: white;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 1rem;
+    text-align: left;
     }
 
     .recipe-table td,
@@ -413,29 +417,27 @@ button:hover {
 
     .recipe-table,
     .breads-table {
-        border-collapse: collapse !important;
-        page-break-inside: avoid !important;
-        margin: 0 !important;
-        width: 100% !important;
-        box-shadow: none !important;
+     border-collapse: collapse !important;
+        border: 1px solid #000 !important;
     }
 
     .recipe-table th,
     .breads-table th {
-        background: #e5e5e5 !important;
+        background-color: #f0f0f0 !important;
+        background: #f0f0f0 !important;  /* Double declaration for extra override */
         background-image: none !important;
-        color: black !important;
-        border: 1px solid #000 !important;
-        padding: 2mm !important;
+        color: #000000 !important;
         font-weight: bold !important;
         text-align: left !important;
+        border: 1px solid #000000 !important;
+        padding: 8px !important;
     }
 
     .recipe-table td,
     .breads-table td {
-        border: 1px solid #000 !important;
-        padding: 2mm !important;
-        background: white !important;
+          background-color: #ffffff !important;
+        border: 1px solid #000000 !important;
+        padding: 8px !important;
     }
 
     .breads-table tr.tin-row td {
@@ -444,7 +446,7 @@ button:hover {
     }
 
     .recipe-table tr:last-child td {
-        background-color: #f5f5f5 !important;
+        background-color: #f0f0f0 !important;
         font-weight: bold !important;
     }
 
