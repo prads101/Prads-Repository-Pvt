@@ -58,28 +58,28 @@ h1 {
     padding: 1rem;
     position: relative;
 }
-/* Responsive Grid for Input Section */
+/* Full-Width Layout for Input Section on Mobile */
 .input-section {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));  /* Larger minimum width */
-    gap: 0.5rem;  /* Reduced gap between cards */
-    margin-bottom: 1rem;
-    padding: 0.5rem;
+    grid-template-columns: 1fr;  /* Single column for full width on mobile */
+    gap: 1rem;  /* Space between cards */
+    padding: 1rem;  /* Padding around section */
 }
 
-/* Compact Bread Category Cards */
+/* Full-Width, Responsive Bread Category Cards */
 .bread-category {
     background: var(--surface);
-    padding: 0.5rem;   /* Tight padding inside cards */
+    padding: 1rem;             /* Larger padding inside cards */
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     border: 1px solid var(--border);
+    width: 100%;               /* Full width */
 }
 
-/* Header for Each Category */
+/* Larger, Readable Heading for Each Category */
 .bread-category h3 {
-    font-size: 1.1rem;  /* Larger, readable font size for headings */
-    margin-bottom: 0.5rem;
+    font-size: 1.2rem;         /* Larger font size for headings */
+    margin-bottom: 0.75rem;
     padding-bottom: 0.25rem;
     border-bottom: 1px solid var(--primary);
 }
@@ -89,23 +89,23 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 0.5rem;  /* Reduced space between input groups */
+    margin-bottom: 0.75rem;    /* Space between input groups */
 }
 
-/* Labels and Input Boxes */
+/* Larger Labels and Input Boxes for Mobile Readability */
 .input-group label {
-    font-size: 1rem;          /* Larger, more readable font size for labels */
-    flex: 1;                  /* Make label take available space */
-    margin-right: 0.5rem;     /* Space between label and input */
+    font-size: 1.1rem;         /* Larger font for labels */
+    flex: 1;                   /* Label takes up available space */
+    margin-right: 1rem;        /* Space between label and input */
     text-align: left;
 }
 
 input[type="number"] {
-    width: 100px;             /* Consistent width for input boxes */
-    padding: 0.4rem;          /* Compact padding for inputs */
-    font-size: 1rem;          /* Larger font size for readability */
-    border-radius: 4px;
-    text-align: center;        /* Align numbers to the right for better readability */
+    width: 100px;              /* Consistent width for input boxes */
+    padding: 0.6rem;           /* Increased padding for readability */
+    font-size: 1.1rem;         /* Larger font for inputs */
+    border-radius: 6px;
+    text-align: right;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
@@ -201,6 +201,23 @@ button {
         font-size: 16pt;
         margin-bottom: 10px;
         text-align: center;
+    }
+     .input-section {
+        padding: 1rem;               /* Padding on mobile for spacing */
+    }
+
+    .bread-category {
+        padding: 1rem;               /* Larger padding in each card */
+    }
+
+    .input-group label {
+        font-size: 1.2rem;           /* Even larger font size on smaller screens */
+    }
+
+    input[type="number"] {
+        width: 100%;                 /* Full-width inputs on mobile */
+        padding: 0.7rem;             /* Larger padding for comfortable tapping */
+        font-size: 1.2rem;           /* Larger font for readability */
     }
 
     /* Single-column layout for tables on mobile */
