@@ -58,54 +58,57 @@ h1 {
     padding: 1rem;
     position: relative;
 }
-/* Full-Width Layout for Input Section on Mobile */
+/* Original Input Section Layout */
 .input-section {
     display: grid;
-    grid-template-columns: 1fr;  /* Single column for full width on mobile */
-    gap: 1rem;  /* Space between cards */
-    padding: 1rem;  /* Padding around section */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));  /* Original width */
+    gap: 2rem;  /* Original spacing between cards */
+    margin-bottom: 2rem;
+    padding: 0;  /* Reset padding around section */
 }
 
-/* Full-Width, Responsive Bread Category Cards */
+/* Original Bread Category Card Layout */
 .bread-category {
     background: var(--surface);
-    padding: 1rem;             /* Larger padding inside cards */
+    padding: 1.5rem;   /* Original padding */
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    border: 1px solid var(--border);
-    width: 100%;               /* Full width */
+    border: 2px solid var(--border);
 }
 
-/* Larger, Readable Heading for Each Category */
+/* Heading for Each Category */
 .bread-category h3 {
-    font-size: 1.2rem;         /* Larger font size for headings */
-    margin-bottom: 0.75rem;
-    padding-bottom: 0.25rem;
-    border-bottom: 1px solid var(--primary);
+    font-size: 1.3rem;  /* Original font size */
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary);
+    text-align: left;   /* Left-aligned headings */
 }
 
-/* Input Group with Side-by-Side Layout */
+/* Original Input Group Layout */
 .input-group {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.75rem;    /* Space between input groups */
+    margin-bottom: 1.2rem;  /* Original spacing between input groups */
+    position: relative;
 }
 
-/* Larger Labels and Input Boxes for Mobile Readability */
+/* Label and Input Layout */
 .input-group label {
-    font-size: 1.1rem;         /* Larger font for labels */
-    flex: 1;                   /* Label takes up available space */
-    margin-right: 1rem;        /* Space between label and input */
-    text-align: left;
+    font-size: 1rem;        /* Original font size for labels */
+    margin-bottom: 0.5rem;
+    color: var(--text);
+    font-weight: 500;
 }
 
 input[type="number"] {
-    width: 100px;              /* Consistent width for input boxes */
-    padding: 0.6rem;           /* Increased padding for readability */
-    font-size: 1.1rem;         /* Larger font for inputs */
-    border-radius: 6px;
-    text-align: right;
+    width: 80px;            /* Original input width */
+    padding: 0.75rem;       /* Original padding */
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.1rem;      /* Original font size for inputs */
+    font-weight: 500;
+    appearance: none;
+    -moz-appearance: textfield;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
