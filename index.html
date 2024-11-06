@@ -224,7 +224,7 @@ button {
         width: 100%;
     }
 
-    /* Table styling with inner padding for breathing room */
+    /* Table styling with only horizontal lines */
     .recipe-table, 
     .breads-table {
         font-size: 14pt !important;
@@ -232,25 +232,30 @@ button {
         border-collapse: collapse;
         margin: 0;
         page-break-inside: avoid;
-        border: 0.5pt solid black;
-        padding: 3mm;  /* Inner padding around each table */
+        padding: 3mm;
         box-sizing: border-box;
+        border-top: 0.5pt solid black;
+        border-bottom: 0.5pt solid black;
     }
 
     .recipe-table th, 
     .breads-table th {
         background-color: #f0f0f0 !important;
         color: black !important;
-        padding: 2mm;  /* Slightly increased padding for headers */
+        padding: 2mm;
         font-weight: bold;
         text-align: left;
-        border: 0.5pt solid black;
+        border-top: 0.5pt solid black;
+        border-bottom: 0.5pt solid black;
     }
 
     .recipe-table td, 
     .breads-table td {
-        padding: 1mm;  /* Adjusted padding for readability */
-        border: 0.5pt solid black;
+        padding: 1mm;
+        border-top: 0.5pt solid black;
+        border-bottom: 0.5pt solid black;
+        border-left: none !important;
+        border-right: none !important;
     }
 
     /* Ensure colors and content print correctly */
@@ -265,7 +270,6 @@ button {
         display: none !important;
     }
 }
-
 </style>
 </head>
 <body>
