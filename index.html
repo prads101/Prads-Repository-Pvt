@@ -198,7 +198,7 @@ button {
 @media print {
     @page {
         size: A4;
-        margin: 5mm;  /* Reduced margins */
+        margin: 5mm;  /* Reduced margin to maximize space */
     }
 
     body {
@@ -211,18 +211,18 @@ button {
     }
 
     h1 {
-        font-size: 14pt !important;
-        margin: 0 0 4mm 0 !important;
+        font-size: 16pt !important;
+        margin: 0 0 3mm 0 !important;
         padding: 0 !important;
         text-align: center !important;
         color: black !important;
     }
 
-    /* Output section layout */
+    /* Main output layout - side by side */
     .output-section {
         display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;  /* Two columns */
-        gap: 4mm !important;
+        grid-template-columns: 60% 40% !important;  /* Slightly adjusted split */
+        gap: 3mm !important;
         padding: 0 !important;
         margin: 0 !important;
         background: none !important;
@@ -231,51 +231,57 @@ button {
 
     /* Recipe tables container */
     .recipe-tables {
-        grid-column: 1 / -1 !important;  /* Span all columns */
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 4mm !important;
-        margin-bottom: 4mm !important;
+        grid-column: 1 !important;  /* Left side */
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 3mm !important;
     }
 
-    /* Breads list */
+    /* Breads list container */
     .breads-list {
-        grid-column: 1 / -1 !important;
+        grid-column: 2 !important;  /* Right side */
+        height: fit-content !important;
     }
 
     /* Table styles */
     .recipe-table, 
     .breads-table {
-        font-size: 13pt !important;  /* Smaller font */
-        margin: 0 !important;
+        font-size: 14pt !important;  /* Larger font as requested */
         width: 100% !important;
         border-collapse: collapse !important;
-        break-inside: avoid !important;
+        margin-bottom: 3mm !important;
+        page-break-inside: avoid !important;
     }
 
     .recipe-table th,
     .breads-table th {
         background-color: #f0f0f0 !important;
         color: black !important;
-        padding: 2mm 1mm !important;
-        font-size: 13pt !important;
+        padding: 2mm 2mm !important;
+        font-size: 14pt !important;
         font-weight: bold !important;
-        border: 0.5pt solid black !important;
+        border: 1pt solid black !important;
+        text-align: left !important;
     }
 
     .recipe-table td,
     .breads-table td {
-        padding: 1mm !important;
-        border: 0.5pt solid black !important;
-        font-size: 9pt !important;
+        padding: 1.5mm 2mm !important;
+        border: 1pt solid black !important;
+        font-size: 14pt !important;
     }
 
-    /* Category headers in breads list */
+    /* Category headers */
     tr[style*="background-color: #f0f0f0"] td {
         background-color: #f0f0f0 !important;
         font-weight: bold !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
+    }
+
+    /* Breads List specific adjustments */
+    .breads-list .breads-table {
+        margin-bottom: 0 !important;  /* Remove bottom margin for last table */
     }
 
     /* Force backgrounds to print */
@@ -284,22 +290,22 @@ button {
         print-color-adjust: exact !important;
     }
 
-    /* Optimize spacing */
+    /* Total row styling */
+    .recipe-table tr:last-child td {
+        background-color: #f0f0f0 !important;
+        font-weight: bold !important;
+    }
+
+    /* Optimize table cell heights */
     .recipe-table tr td,
     .breads-table tr td {
         line-height: 1.2 !important;
     }
 
-    /* Make sure everything fits on one page */
+    /* Ensure no page breaks */
     .output-wrapper {
-        max-height: 277mm !important;  /* A4 height minus margins */
+        max-height: 287mm !important;  /* A4 height minus margins */
         overflow: hidden !important;
-    }
-
-    /* Remove shadows and decorations */
-    * {
-        box-shadow: none !important;
-        text-shadow: none !important;
     }
 }
 </style>
@@ -454,8 +460,7 @@ function calculateWhiteDoughWeight(inputs) {
            (inputs.rye.tin * 907) +
            (inputs.black.small * 454) +
            (inputs.marble.tin * 907) +
-           (inputs.bulka.qty * 907);
-}
+          }
 
 function calculateWholemealDoughWeight(inputs) {
     return (inputs.wholemeal.large * 907) + 
@@ -655,7 +660,6 @@ function generateRecipeTable(title, recipe) {
         `;
     }
 }
-
 function generateBreadsList(inputs) {
     let html = `
     <table class="breads-table">
@@ -663,54 +667,57 @@ function generateBreadsList(inputs) {
         <tbody>
     `;
     
-    // Check if there are any bloomers
-    let hasBloomer = false;
-    if (inputs.white.small > 0 || inputs.white.large > 0 || inputs.rye.small > 0 || 
-        inputs.rye.large > 0 || inputs.black.small > 0 || inputs.wholemeal.large > 0 || 
-        inputs.granary.small > 0 || inputs.granary.large > 0) {
-        
-        hasBloomer = true;
+    // Check for bloomers
+    let hasBloomer = (inputs.white.small > 0 || inputs.white.large > 0 || 
+                      inputs.rye.small > 0 || inputs.rye.large > 0 || 
+                      inputs.black.small > 0 || inputs.wholemeal.large > 0 || 
+                      inputs.granary.small > 0 || inputs.granary.large > 0);
+    
+    if (hasBloomer) {
         html += `<tr style="background-color: #f0f0f0;">
             <td colspan="2"><strong>Bloomers</strong></td>
         </tr>`;
         
+        // 1lb Bloomers
         if (inputs.white.small > 0) html += `<tr><td>White Small Bloomer (1 lb)</td><td>${inputs.white.small}</td></tr>`;
-        if (inputs.white.large > 0) html += `<tr><td>White Large Bloomer (2 lb)</td><td>${inputs.white.large}</td></tr>`;
         if (inputs.rye.small > 0) html += `<tr><td>Rye Small Bloomer (1 lb)</td><td>${inputs.rye.small}</td></tr>`;
-        if (inputs.rye.large > 0) html += `<tr><td>Rye Large Bloomer (2 lb)</td><td>${inputs.rye.large}</td></tr>`;
         if (inputs.black.small > 0) html += `<tr><td>Black Round Small (1 lb)</td><td>${inputs.black.small}</td></tr>`;
-        if (inputs.wholemeal.large > 0) html += `<tr><td>Wholemeal Large Bloomer (2 lb)</td><td>${inputs.wholemeal.large}</td></tr>`;
         if (inputs.granary.small > 0) html += `<tr><td>Granary Small Bloomer (1 lb)</td><td>${inputs.granary.small}</td></tr>`;
+        
+        // 2lb Bloomers
+        if (inputs.white.large > 0) html += `<tr><td>White Large Bloomer (2 lb)</td><td>${inputs.white.large}</td></tr>`;
+        if (inputs.rye.large > 0) html += `<tr><td>Rye Large Bloomer (2 lb)</td><td>${inputs.rye.large}</td></tr>`;
+        if (inputs.wholemeal.large > 0) html += `<tr><td>Wholemeal Large Bloomer (2 lb)</td><td>${inputs.wholemeal.large}</td></tr>`;
         if (inputs.granary.large > 0) html += `<tr><td>Granary Large Bloomer (2 lb)</td><td>${inputs.granary.large}</td></tr>`;
     }
     
-    // Check if there are any tins
-    let hasTin = false;
-    if (inputs.white.tin > 0 || inputs.rye.tin > 0 || inputs.marble.tin > 0 || 
-        inputs.wholemeal.tin > 0 || inputs.granary.tin > 0) {
-        
-        hasTin = true;
-        if (hasBloomer) html += `<tr><td colspan="2">&nbsp;</td></tr>`;  // Add space if there were bloomers
+    // Check for tins
+    let hasTin = (inputs.white.tin > 0 || inputs.rye.tin > 0 || 
+                  inputs.marble.tin > 0 || inputs.wholemeal.tin > 0 || 
+                  inputs.granary.tin > 0);
+    
+    if (hasTin) {
+        if (hasBloomer) html += `<tr><td colspan="2">&nbsp;</td></tr>`;
         
         html += `<tr style="background-color: #f0f0f0;">
-            <td colspan="2"><strong>Tins</strong></td>
+            <td colspan="2"><strong>Tins (2 lb)</strong></td>
         </tr>`;
         
-        if (inputs.white.tin > 0) html += `<tr><td>White Tins (2 lb)</td><td>${inputs.white.tin}</td></tr>`;
-        if (inputs.rye.tin > 0) html += `<tr><td>Rye Tins (2 lb)</td><td>${inputs.rye.tin}</td></tr>`;
-        if (inputs.marble.tin > 0) html += `<tr><td>Marble Rye Tins (2 lb)</td><td>${inputs.marble.tin}</td></tr>`;
-        if (inputs.wholemeal.tin > 0) html += `<tr><td>Wholemeal Tins (2 lb)</td><td>${inputs.wholemeal.tin}</td></tr>`;
-        if (inputs.granary.tin > 0) html += `<tr><td>Granary Tins (2 lb)</td><td>${inputs.granary.tin}</td></tr>`;
+        if (inputs.white.tin > 0) html += `<tr><td>White Tins</td><td>${inputs.white.tin}</td></tr>`;
+        if (inputs.rye.tin > 0) html += `<tr><td>Rye Tins</td><td>${inputs.rye.tin}</td></tr>`;
+        if (inputs.marble.tin > 0) html += `<tr><td>Marble Rye Tins</td><td>${inputs.marble.tin}</td></tr>`;
+        if (inputs.wholemeal.tin > 0) html += `<tr><td>Wholemeal Tins</td><td>${inputs.wholemeal.tin}</td></tr>`;
+        if (inputs.granary.tin > 0) html += `<tr><td>Granary Tins</td><td>${inputs.granary.tin}</td></tr>`;
     }
     
-    // Bulka section
+    // Bulka section - separate display only
     if (inputs.bulka.qty > 0) {
         if (hasBloomer || hasTin) html += `<tr><td colspan="2">&nbsp;</td></tr>`;
         
         html += `<tr style="background-color: #f0f0f0;">
             <td colspan="2"><strong>Other</strong></td>
         </tr>`;
-        html += `<tr><td>Bulka Large</td><td>${inputs.bulka.qty}</td></tr>`;
+        html += `<tr><td>Bulka</td><td>${inputs.bulka.qty}</td></tr>`;
     }
 
     html += '</tbody></table>';
