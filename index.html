@@ -59,56 +59,48 @@ h1 {
     position: relative;
 }
 
-/* Input Section Styles */
+/* Compact Input Section */
 .input-section {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-bottom: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));  /* Smaller min width */
+    gap: 1rem;  /* Reduced gap between cards */
+    margin-bottom: 1rem;
 }
 
-/* Bread Category Cards */
+/* Compact Bread Category Cards */
 .bread-category {
     background: var(--surface);
-    padding: 1.5rem;
+    padding: 0.75rem;  /* Reduced padding */
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    border: 2px solid var(--border);
+    border: 1px solid var(--border);
 }
 
 .bread-category h3 {
-    color: var(--text);
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--primary);
-    font-size: 1.3rem;
-    font-weight: 700;
+    font-size: 1rem;  /* Smaller font size for headings */
+    margin-bottom: 0.5rem;  /* Less space below heading */
+    padding-bottom: 0.25rem; /* Reduced padding at bottom */
+    border-bottom: 1px solid var(--primary);
 }
 
-/* Input Groups */
 .input-group {
-    margin-bottom: 1.2rem;
-    position: relative;
+    margin-bottom: 0.5rem;  /* Reduced space between input groups */
 }
 
+/* Input Labels and Fields */
 .input-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: var(--text);
-    font-weight: 500;
+    font-size: 0.9rem;  /* Smaller font for labels */
+    margin-bottom: 0.25rem;
 }
 
 input[type="number"] {
-    width: 80px;
-    padding: 0.75rem;
-    border: 2px solid var(--border);
-    border-radius: 8px;
+    width: 70px;         /* Reduced width for input fields */
+    padding: 0.5rem;     /* Reduced padding for input fields */
+    font-size: 0.9rem;   /* Smaller font size */
+    border-radius: 6px;  /* Adjusted radius for a compact look */
     text-align: center;
-    font-size: 1.1rem;
-    font-weight: 500;
-    appearance: none;
-    -moz-appearance: textfield;
 }
+
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
