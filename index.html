@@ -193,6 +193,57 @@ button {
     padding: 1rem;
     border: 1px solid var(--border);
 }
+@media only screen and (max-width: 768px) {
+    body {
+        font-size: 12pt;  /* Slightly smaller font for readability */
+        padding: 10px;    /* Add padding to prevent edge overflow */
+    }
+
+    h1 {
+        font-size: 16pt;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    /* Single-column layout for tables on mobile */
+    .output-section {
+        display: block;  /* Stacks tables vertically */
+        padding: 0;
+        margin: 0;
+        gap: 10px;
+    }
+
+    /* Ensure tables are readable on smaller screens */
+    .recipe-table, 
+    .breads-table {
+        width: 100%;            /* Full width on mobile */
+        font-size: 12pt;        /* Adjust font size for smaller screens */
+        margin-bottom: 10px;    /* Space between tables */
+        border: 0.5pt solid black;
+        box-shadow: none;       /* Remove any box shadow for a cleaner look */
+    }
+
+    .recipe-table th, 
+    .breads-table th, 
+    .recipe-table td, 
+    .breads-table td {
+        padding: 5px;           /* Reduced padding for smaller screens */
+        text-align: left;
+    }
+
+    /* Button adjustments for mobile */
+    .buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    button {
+        padding: 10px;
+        font-size: 14px;
+        width: 100%;
+    }
+}
 
 /* Print Styles */
 @media print {
