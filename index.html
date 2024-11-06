@@ -61,55 +61,57 @@ h1 {
 /* Input Section Layout */
 .input-section {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjusted width to fit better */
-    gap: 1.5rem;  /* Balanced spacing between cards */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Ensures responsive fit */
+    gap: 1.5rem;  /* Space between each card */
     margin-bottom: 1.5rem;
-    padding: 0.5rem;
+    padding: 1rem;
 }
 
 /* Bread Category Card */
 .bread-category {
     background: var(--surface);
-    padding: 1rem;              /* Tight padding for compactness */
+    padding: 1rem;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     border: 1px solid var(--border);
 }
 
-/* Heading Style for Each Category */
+/* Heading for Each Category */
 .bread-category h3 {
-    font-size: 1.2rem;          /* Slightly smaller font for headings */
+    font-size: 1.2rem;
     margin-bottom: 1rem;
     padding-bottom: 0.3rem;
     border-bottom: 1px solid var(--primary);
     text-align: left;
 }
 
-/* Input Group with Inline Layout */
+/* Stack Label on Top of Input */
 .input-group {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;        /* Controlled space between groups */
+    flex-direction: column;    /* Stack label above input */
+    margin-bottom: 1rem;
 }
 
 /* Label Style */
 .input-group label {
-    font-size: 1rem;            /* Readable font size */
-    flex: 1;                    /* Allow label to take up available space */
-    margin-right: 0.5rem;       /* Space between label and input */
-    text-align: left;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;     /* Small space between label and input */
+    color: var(--text);
+    font-weight: 500;
+    text-align: left;          /* Align label text to the left */
 }
 
 /* Input Box Style */
 input[type="number"] {
-    width: 80px;                /* Standard input width */
-    padding: 0.5rem;            /* Compact padding for inputs */
-    font-size: 1rem;            /* Consistent font size */
+    width: 100%;               /* Full-width for easier alignment */
+    max-width: 100px;          /* Consistent width across screens */
+    padding: 0.5rem;
+    font-size: 1rem;
     border: 1px solid var(--border);
     border-radius: 4px;
     text-align: center;
 }
+
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
