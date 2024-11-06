@@ -221,7 +221,7 @@ button {
     /* Main output layout - side by side */
     .output-section {
         display: grid !important;
-        grid-template-columns: 60% 40% !important;  /* Slightly adjusted split */
+        grid-template-columns: 65% 35% !important;  /* Slightly adjusted split */
         gap: 3mm !important;
         padding: 0 !important;
         margin: 0 !important;
@@ -418,9 +418,12 @@ button {
     </div>
 
     <!-- Output Section -->
-    <div class="output-wrapper">
-        <div id="output-section" class="output-section"></div>
+   <div class="output-wrapper">
+    <div id="output-section" class="output-section">
+        <div class="recipe-tables"></div>
+        <div class="breads-list"></div>
     </div>
+</div>
     <script>
 // Utility functions
 function getInputValue(id) {
@@ -459,8 +462,8 @@ function calculateWhiteDoughWeight(inputs) {
            (inputs.rye.large * 907) +
            (inputs.rye.tin * 907) +
            (inputs.black.small * 454) +
-           (inputs.marble.tin * 907) +
-          }
+           (inputs.marble.tin * 907);    // Removed bulka and fixed syntax
+}
 
 function calculateWholemealDoughWeight(inputs) {
     return (inputs.wholemeal.large * 907) + 
@@ -725,7 +728,6 @@ function generateBreadsList(inputs) {
 }
 
 function calculateRecipe() {
-    // Get all input values
     const inputs = {
         white: {
             small: getInputValue('white-small'),
@@ -757,27 +759,33 @@ function calculateRecipe() {
         }
     };
 
-    // Calculate total weight needed for each type
     const whiteDoughWeight = calculateWhiteDoughWeight(inputs);
     const wholemealDoughWeight = calculateWholemealDoughWeight(inputs);
     const granaryDoughWeight = calculateGranaryDoughWeight(inputs);
 
-    // Generate HTML for recipes and bread counts
+    // Get references to containers
     const outputSection = document.getElementById('output-section');
-    outputSection.innerHTML = `
-        <div class="recipe-tables">
-            ${generateRecipeTable('White Bread Recipe', calculateWhiteRecipe(whiteDoughWeight))}
-            ${wholemealDoughWeight > 0 ? generateRecipeTable('Wholemeal Bread Recipe', calculateWholemealRecipe(wholemealDoughWeight)) : ''}
-            ${granaryDoughWeight > 0 ? generateRecipeTable('Granary Bread Recipe', calculateGranaryRecipe(granaryDoughWeight)) : ''}
-        </div>
-        <div class="breads-list">
-            ${generateBreadsList(inputs)}
-        </div>
+    const recipeTables = document.createElement('div');
+    recipeTables.className = 'recipe-tables';
+    const breadsList = document.createElement('div');
+    breadsList.className = 'breads-list';
+
+    // Generate recipes
+    recipeTables.innerHTML = `
+        ${generateRecipeTable('White Bread Recipe', calculateWhiteRecipe(whiteDoughWeight))}
+        ${wholemealDoughWeight > 0 ? generateRecipeTable('Wholemeal Bread Recipe', calculateWholemealRecipe(wholemealDoughWeight)) : ''}
+        ${granaryDoughWeight > 0 ? generateRecipeTable('Granary Bread Recipe', calculateGranaryRecipe(granaryDoughWeight)) : ''}
     `;
-    
+
+    // Generate breads list
+    breadsList.innerHTML = generateBreadsList(inputs);
+
+    // Clear and update output section
+    outputSection.innerHTML = '';
+    outputSection.appendChild(recipeTables);
+    outputSection.appendChild(breadsList);
     outputSection.classList.add('visible');
 }
-
 // Event listeners
 document.addEventListener('DOMContentLoaded', function() {
     const inputs = document.querySelectorAll('input[type="number"]');
