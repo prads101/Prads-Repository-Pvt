@@ -198,7 +198,7 @@ button {
 @media print {
     @page {
         size: A4;
-        margin: 5mm;  /* Reduced margin to maximize space */
+        margin: 5mm;
     }
 
     body {
@@ -211,7 +211,7 @@ button {
     }
 
     h1 {
-        font-size: 15pt !important;
+        font-size: 16pt !important;
         margin: 0 0 3mm 0 !important;
         padding: 0 !important;
         text-align: center !important;
@@ -221,17 +221,19 @@ button {
     /* Main output layout - side by side */
     .output-section {
         display: grid !important;
-        grid-template-columns: 55% 45% !important;  /* Slightly adjusted split */
+        grid-template-columns: 60% 40% !important;  /* Recipes | Breads List */
         gap: 3mm !important;
         padding: 0 !important;
         margin: 0 !important;
         background: none !important;
         box-shadow: none !important;
+        height: auto !important;
+        overflow: visible !important;
     }
 
     /* Recipe tables container */
     .recipe-tables {
-        grid-column: 1 !important;  /* Left side */
+        grid-column: 1 !important;
         display: flex !important;
         flex-direction: column !important;
         gap: 3mm !important;
@@ -239,17 +241,16 @@ button {
 
     /* Breads list container */
     .breads-list {
-        grid-column: 2 !important;  /* Right side */
-        height: fit-content !important;
+        grid-column: 2 !important;
     }
 
-    /* Table styles */
+    /* Table styles with reduced spacing */
     .recipe-table, 
     .breads-table {
-        font-size: 13pt !important;  /* Larger font as requested */
+        font-size: 12pt !important;  /* Slightly reduced font size */
         width: 100% !important;
         border-collapse: collapse !important;
-        margin-bottom: 3mm !important;
+        margin-bottom: 2mm !important;
         page-break-inside: avoid !important;
     }
 
@@ -257,31 +258,35 @@ button {
     .breads-table th {
         background-color: #f0f0f0 !important;
         color: black !important;
-        padding: 2mm 2mm !important;
-        font-size: 13pt !important;
+        padding: 1.5mm !important;  /* Reduced padding */
+        font-size: 12pt !important;
         font-weight: bold !important;
-        border: 1pt solid black !important;
+        border: 0.5pt solid black !important;
         text-align: left !important;
     }
 
     .recipe-table td,
     .breads-table td {
-        padding: 1.5mm 2mm !important;
-        border: 1pt solid black !important;
-        font-size: 13pt !important;
+        padding: 1mm 1.5mm !important;  /* Reduced padding */
+        border: 0.5pt solid black !important;
+        font-size: 12pt !important;
+        line-height: 1.1 !important;  /* Reduced line height */
     }
 
     /* Category headers */
     tr[style*="background-color: #f0f0f0"] td {
         background-color: #f0f0f0 !important;
         font-weight: bold !important;
+        padding: 1mm 1.5mm !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
     }
 
-    /* Breads List specific adjustments */
-    .breads-list .breads-table {
-        margin-bottom: 0 !important;  /* Remove bottom margin for last table */
+    /* Remove any fixed heights or overflow restrictions */
+    .output-wrapper {
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
     }
 
     /* Force backgrounds to print */
@@ -290,22 +295,26 @@ button {
         print-color-adjust: exact !important;
     }
 
-    /* Total row styling */
-    .recipe-table tr:last-child td {
-        background-color: #f0f0f0 !important;
-        font-weight: bold !important;
+    /* Optimize spacing between sections */
+    tr[style*="background-color: #f0f0f0"] {
+        margin-top: 2mm !important;
     }
 
-    /* Optimize table cell heights */
-    .recipe-table tr td,
-    .breads-table tr td {
-        line-height: 1.2 !important;
+    /* Remove any box shadows and borders in print */
+    .recipe-table,
+    .breads-table {
+        box-shadow: none !important;
+        border: 0.5pt solid black !important;
     }
 
-    /* Ensure no page breaks */
-    .output-wrapper {
-        max-height: 287mm !important;  /* A4 height minus margins */
-        overflow: hidden !important;
+    /* Make sure no content is cut off */
+    * {
+        overflow: visible !important;
+    }
+
+    /* Space between header sections in breads list */
+    .breads-table tr td[colspan="2"] {
+        padding: 0.5mm !important;
     }
 }
 </style>
