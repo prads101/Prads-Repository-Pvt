@@ -352,24 +352,39 @@ button:hover {
         font-size: 1rem;
         width: 100%;
     }
+/* Table Styles */
+.recipe-table, 
+.breads-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 1rem;
+    background: var(--surface);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
 
-    .recipe-table th,
+/* Add the new styles here */
+.category-header td {
+    background-color: #f0f0f0 !important;
+    font-weight: bold;
+    padding: 8px !important;
+    border-top: 2px solid #ddd !important;
+}
+
+/* Your existing table styles continue... */
+.recipe-table th,
 .breads-table th {
-    background: #064e77; /* Solid color instead of gradient */
+    background: var(--table-header-bg);
     color: white;
     font-size: 1.2rem;
     text-transform: uppercase;
     letter-spacing: 1px;
     padding: 1rem;
     text-align: left;
-    }
-
-    .recipe-table td,
-    .breads-table td {
-        padding: 0.5rem;
-    }
 }
-
+    
 /* Print Styles */
 @media print {
     @page {
@@ -451,6 +466,12 @@ button:hover {
     }
 
     * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    .category-header td {
+        background-color: #f0f0f0 !important;
+        font-weight: bold !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
     }
@@ -541,18 +562,21 @@ button:hover {
         </div>
 
         <!-- Granary Bread -->
-        <div class="bread-category">
-            <h3>Granary Bread</h3>
-            <div class="input-group">
-                <label>Large Bloomer (2 lb)</label>
-                <input type="number" id="granary-large" min="0">
-            </div>
-            <div class="input-group">
-                <label>Tins (2 lb)</label>
-                <input type="number" id="granary-tin" min="0">
-            </div>
-        </div>
+      <div class="bread-category">
+    <h3>Granary Bread</h3>
+    <div class="input-group">
+        <label>Small Bloomer (1 lb)</label>
+        <input type="number" id="granary-small" min="0">
     </div>
+    <div class="input-group">
+        <label>Large Bloomer (2 lb)</label>
+        <input type="number" id="granary-large" min="0">
+    </div>
+    <div class="input-group">
+        <label>Tins (2 lb)</label>
+        <input type="number" id="granary-tin" min="0">
+    </div>
+</div>
 
     <!-- Buttons -->
     <div class="buttons">
@@ -615,7 +639,8 @@ function calculateWholemealDoughWeight(inputs) {
 }
 
 function calculateGranaryDoughWeight(inputs) {
-    return (inputs.granary.large * 907) + 
+    return (inputs.granary.small * 454) +  // Add this line for 1lb
+           (inputs.granary.large * 907) + 
            (inputs.granary.tin * 907);
 }
 
@@ -813,24 +838,36 @@ function generateBreadsList(inputs) {
     <table class="breads-table">
         <thead><tr><th colspan="2">Breads to be Made</th></tr></thead>
         <tbody>
+            <tr class="category-header"><td colspan="2"><strong>Bloomers</strong></td></tr>
     `;
     
-    if (inputs.white.small > 0) html += `<tr><td>White Small Bloomer</td><td>${inputs.white.small}</td></tr>`;
-    if (inputs.white.large > 0) html += `<tr><td>White Large Bloomer</td><td>${inputs.white.large}</td></tr>`;
-    if (inputs.white.tin > 0) html += `<tr class="tin-row"><td>White Tins</td><td>${inputs.white.tin}</td></tr>`;
-    if (inputs.rye.small > 0) html += `<tr><td>Rye Small Bloomer</td><td>${inputs.rye.small}</td></tr>`;
-    if (inputs.rye.large > 0) html += `<tr><td>Rye Large Bloomer</td><td>${inputs.rye.large}</td></tr>`;
-    if (inputs.rye.tin > 0) html += `<tr class="tin-row"><td>Rye Tins</td><td>${inputs.rye.tin}</td></tr>`;
-    if (inputs.black.small > 0) html += `<tr><td>Black Round Small</td><td>${inputs.black.small}</td></tr>`;
-    if (inputs.marble.tin > 0) html += `<tr class="tin-row"><td>Marble Rye Tins</td><td>${inputs.marble.tin}</td></tr>`;
-    if (inputs.wholemeal.large > 0) html += `<tr><td>Wholemeal Large Bloomer</td><td>${inputs.wholemeal.large}</td></tr>`;
-    if (inputs.wholemeal.tin > 0) html += `<tr class="tin-row"><td>Wholemeal Tins</td><td>${inputs.wholemeal.tin}</td></tr>`;
-    if (inputs.granary.large > 0) html += `<tr><td>Granary Large Bloomer</td><td>${inputs.granary.large}</td></tr>`;
-    if (inputs.granary.tin > 0) html += `<tr class="tin-row"><td>Granary Tins</td><td>${inputs.granary.tin}</td></tr>`;
-    if (inputs.bulka.qty > 0) html += `<tr><td>Bulka Large</td><td>${inputs.bulka.qty}</td></tr>`;
+    // Bloomers section
+    if (inputs.white.small > 0) html += `<tr><td>White Small Bloomer (1 lb)</td><td>${inputs.white.small}</td></tr>`;
+    if (inputs.white.large > 0) html += `<tr><td>White Large Bloomer (2 lb)</td><td>${inputs.white.large}</td></tr>`;
+    if (inputs.rye.small > 0) html += `<tr><td>Rye Small Bloomer (1 lb)</td><td>${inputs.rye.small}</td></tr>`;
+    if (inputs.rye.large > 0) html += `<tr><td>Rye Large Bloomer (2 lb)</td><td>${inputs.rye.large}</td></tr>`;
+    if (inputs.black.small > 0) html += `<tr><td>Black Round Small (1 lb)</td><td>${inputs.black.small}</td></tr>`;
+    if (inputs.wholemeal.large > 0) html += `<tr><td>Wholemeal Large Bloomer (2 lb)</td><td>${inputs.wholemeal.large}</td></tr>`;
+    if (inputs.granary.small > 0) html += `<tr><td>Granary Small Bloomer (1 lb)</td><td>${inputs.granary.small}</td></tr>`;
+    if (inputs.granary.large > 0) html += `<tr><td>Granary Large Bloomer (2 lb)</td><td>${inputs.granary.large}</td></tr>`;
+    
+    // Tins section
+    html += `<tr class="category-header"><td colspan="2"><strong>Tins</strong></td></tr>`;
+    if (inputs.white.tin > 0) html += `<tr><td>White Tins (2 lb)</td><td>${inputs.white.tin}</td></tr>`;
+    if (inputs.rye.tin > 0) html += `<tr><td>Rye Tins (2 lb)</td><td>${inputs.rye.tin}</td></tr>`;
+    if (inputs.marble.tin > 0) html += `<tr><td>Marble Rye Tins (2 lb)</td><td>${inputs.marble.tin}</td></tr>`;
+    if (inputs.wholemeal.tin > 0) html += `<tr><td>Wholemeal Tins (2 lb)</td><td>${inputs.wholemeal.tin}</td></tr>`;
+    if (inputs.granary.tin > 0) html += `<tr><td>Granary Tins (2 lb)</td><td>${inputs.granary.tin}</td></tr>`;
+    
+    // Bulka section (separate category)
+    if (inputs.bulka.qty > 0) {
+        html += `<tr class="category-header"><td colspan="2"><strong>Other</strong></td></tr>`;
+        html += `<tr><td>Bulka Large</td><td>${inputs.bulka.qty}</td></tr>`;
+    }
 
     html += '</tbody></table>';
     return html;
+}
 }
 
 function calculateRecipe() {
@@ -861,9 +898,10 @@ function calculateRecipe() {
             tin: getInputValue('wholemeal-tin')
         },
         granary: {
-            large: getInputValue('granary-large'),
-            tin: getInputValue('granary-tin')
-        }
+    small: getInputValue('granary-small'),
+    large: getInputValue('granary-large'),
+    tin: getInputValue('granary-tin')
+    }
     };
 
     // Calculate total weight needed for each type
