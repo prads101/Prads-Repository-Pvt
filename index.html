@@ -389,32 +389,27 @@ button:hover {
 @media print {
     @page {
         size: A4;
-        margin: 10mm;
+        margin: 5mm;
     }
 
-    /* Reset container */
-    .container {
-        margin: 0 !important;
-        padding: 0 !important;
-        box-shadow: none !important;
-        max-width: none !important;
-        background: none !important;
-    }
-
-    /* Hide non-printing elements */
-    .input-section,
-    .buttons {
+    /* Hide everything except output */
+    .no-print {
         display: none !important;
     }
 
-    /* Header styling */
+    /* Show only the title and output */
+    body {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
     h1 {
         font-size: 16pt !important;
         margin: 0 0 5mm 0 !important;
         padding: 0 !important;
         color: black !important;
-        background: none !important;
         text-align: center !important;
+        background: none !important;
         -webkit-background-clip: unset !important;
         background-clip: unset !important;
     }
@@ -424,56 +419,50 @@ button:hover {
     }
 
     /* Output section */
+    .output-wrapper {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
     .output-section {
         display: flex !important;
         flex-direction: column !important;
-        opacity: 1 !important;
-        transform: none !important;
+        gap: 5mm !important;
         margin: 0 !important;
         padding: 0 !important;
         background: none !important;
         box-shadow: none !important;
-        gap: 5mm !important;
+        opacity: 1 !important;
+        transform: none !important;
     }
 
-    /* Recipe tables section */
-    .recipe-tables {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
-        gap: 5mm !important;
-        margin-bottom: 5mm !important;
-    }
-
-    /* Table styles */
-    .recipe-table, 
+    /* Tables */
+    .recipe-table,
     .breads-table {
         width: 100% !important;
+        border-collapse: collapse !important;
         margin-bottom: 5mm !important;
         page-break-inside: avoid !important;
-        border-collapse: collapse !important;
-        background: none !important;
-        box-shadow: none !important;
     }
 
     .recipe-table th,
     .breads-table th {
         background-color: #f0f0f0 !important;
         color: black !important;
-        font-size: 11pt !important;
+        font-weight: bold !important;
+        font-size: 13pt !important;
         padding: 2mm !important;
         border: 1pt solid black !important;
-        text-transform: none !important;
     }
 
     .recipe-table td,
     .breads-table td {
         padding: 2mm !important;
         border: 1pt solid black !important;
-        font-size: 10pt !important;
-        background: none !important;
+        font-size: 13pt !important;
     }
 
-    /* Category headers in breads list */
+    /* Category headers */
     tr[style*="background-color: #f0f0f0"] td {
         background-color: #f0f0f0 !important;
         font-weight: bold !important;
@@ -481,42 +470,27 @@ button:hover {
         print-color-adjust: exact !important;
     }
 
-    /* Total row styling */
-    .recipe-table tr:last-child td {
-        background-color: #f0f0f0 !important;
-        font-weight: bold !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-    }
-
-    /* Force backgrounds to print */
+    /* Force colors to print */
     * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
         color-adjust: exact !important;
     }
 
-    /* Ensure content fits on one page */
-    .output-wrapper {
-        max-height: 277mm !important; /* A4 height minus margins */
-        overflow: hidden !important;
+    /* Recipe tables grid */
+    .recipe-tables {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 5mm !important;
+        margin-bottom: 5mm !important;
     }
 
-    /* Breads list styling */
-    .breads-list {
-        break-inside: avoid !important;
-    }
-
-    /* Remove hover effects */
-    .recipe-table tr:hover td,
-    .breads-table tr:hover td {
+    /* Hide all decorative elements */
+    .container {
         background: none !important;
-    }
-
-    /* Remove shadows and animations */
-    * {
         box-shadow: none !important;
-        transition: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
     }
 }
     </style>
@@ -527,6 +501,8 @@ button:hover {
     
     <!-- Input Section First -->
     <div class="input-section">
+        <div class="no-print">  <!-- Add this wrapper -->
+        <div class="input-section">
                 <!-- White Bread -->
         <div class="bread-category">
             <h3>White Bread</h3>
@@ -616,18 +592,16 @@ button:hover {
     </div>
 </div>
 
-    <!-- Buttons -->
-    <div class="buttons">
-        <button class="print-btn" onclick="window.print()">Print</button>
-        <button class="clear-btn" onclick="clearForm()">Clear</button>
+   <div class="buttons">
+            <button class="print-btn" onclick="window.print()">Print</button>
+            <button class="clear-btn" onclick="clearForm()">Clear</button>
+        </div>
     </div>
-
+</div>
     <!-- Output Section Last -->
-   <!-- Output Section Last -->
-   <div class="output-wrapper">
+ <div class="output-wrapper">
     <div id="output-section" class="output-section"></div>
-</div>
-</div>
+</div
 
 <script>
    // Utility functions
