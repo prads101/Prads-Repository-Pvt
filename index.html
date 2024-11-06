@@ -198,11 +198,11 @@ button {
 @media print {
     @page {
         size: A4;
-        margin: 5mm;  /* Reduced margin */
+        margin: 5mm;
     }
 
     body {
-        font-size: 14pt !important;  /* Keep font size at 14pt */
+        font-size: 14pt !important;
         margin: 0 !important;
         padding: 0 !important;
         color: black !important;
@@ -211,35 +211,37 @@ button {
     h1 {
         font-size: 14pt !important;
         text-align: center;
-        margin-bottom: 4mm;  /* Slightly reduced for more space */
+        margin-bottom: 5mm;
     }
 
-    /* Compact 2-column grid layout for tables */
+    /* Grid layout with padding around each table */
     .output-section {
         display: grid;
-        grid-template-columns: 1fr 1fr;  /* Two columns */
-        gap: 4mm;
-        padding: 0 !important;
-        margin: 0 !important;
+        grid-template-columns: 1fr 1fr;  /* Two columns for compact layout */
+        gap: 5mm;
+        padding: 5mm;  /* Adds padding around the grid area */
+        box-sizing: border-box;  /* Ensures padding does not overflow */
         width: 100%;
     }
 
-    /* Ensure tables are compact and fit within grid */
+    /* Table styling with inner padding for breathing room */
     .recipe-table, 
     .breads-table {
         font-size: 14pt !important;
-        width: 100% !important;
+        width: 100%;
         border-collapse: collapse;
         margin: 0;
         page-break-inside: avoid;
         border: 0.5pt solid black;
+        padding: 3mm;  /* Inner padding around each table */
+        box-sizing: border-box;
     }
 
     .recipe-table th, 
     .breads-table th {
         background-color: #f0f0f0 !important;
         color: black !important;
-        padding: 1mm;  /* Minimized padding */
+        padding: 2mm;  /* Slightly increased padding for headers */
         font-weight: bold;
         text-align: left;
         border: 0.5pt solid black;
@@ -247,11 +249,11 @@ button {
 
     .recipe-table td, 
     .breads-table td {
-        padding: 0.5mm 1mm;  /* Reduced padding to save space */
+        padding: 1mm;  /* Adjusted padding for readability */
         border: 0.5pt solid black;
     }
 
-    /* Ensure all elements print correctly */
+    /* Ensure colors and content print correctly */
     * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
@@ -263,7 +265,6 @@ button {
         display: none !important;
     }
 }
-
 
 </style>
 </head>
