@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="calculator.png" type="image/png">
-<link rel="apple-touch-icon" href="calculator.png">
-    <title>Bread Production Calculator</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" href="calculator.png">
+    <title>Bread Production Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Modern CSS Reset and Variables */
 /* Modern CSS Reset and Variables */
 :root {
-   -primary: #064e77;
+    --primary: #064e77;
     --primary-dark: #0a727a;
     --success: #16a34a;
     --danger: #dc2626;
@@ -46,7 +46,6 @@ body {
     padding: 2rem;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    transition: transform 0.3s ease;
 }
 
 /* Header Styles */
@@ -56,27 +55,11 @@ h1 {
     margin-bottom: 2rem;
     font-size: 2.5rem;
     font-weight: 800;
-    background: var(--table-header-bg);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
     padding: 1rem;
     position: relative;
 }
 
-h1::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-    height: 4px;
-    background: var(--table-header-bg);
-    border-radius: 2px;
-}
-
-/* Grid Layout */
+/* Input Section Styles */
 .input-section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -90,13 +73,7 @@ h1::after {
     padding: 1.5rem;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    transition: all 0.3s ease;
     border: 2px solid var(--border);
-}
-
-.bread-category:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .bread-category h3 {
@@ -112,7 +89,6 @@ h1::after {
 .input-group {
     margin-bottom: 1.2rem;
     position: relative;
-    transition: all 0.3s ease;
 }
 
 .input-group label {
@@ -120,11 +96,6 @@ h1::after {
     margin-bottom: 0.5rem;
     color: var(--text);
     font-weight: 500;
-    transition: color 0.3s ease;
-}
-
-.input-group:focus-within label {
-    color: var(--primary);
 }
 
 input[type="number"] {
@@ -135,7 +106,6 @@ input[type="number"] {
     text-align: center;
     font-size: 1.1rem;
     font-weight: 500;
-    transition: all 0.3s ease;
     appearance: none;
     -moz-appearance: textfield;
 }
@@ -144,68 +114,6 @@ input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
-}
-
-input[type="number"]:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(6, 78, 119, 0.2);
-}
-
-/* Output Section */
-.output-section {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s ease;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-    padding: 2rem;
-    border-radius: var(--radius);
-    background: linear-gradient(to bottom right, var(--surface), #f8fafc);
-    box-shadow: var(--shadow);
-}
-
-.output-section.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Table Styles */
-.recipe-table, 
-.breads-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin-bottom: 1rem;
-    background: var(--surface);
-    border-radius: var(--radius);
-    overflow: hidden;
-    box-shadow: var(--shadow);
-}
-
-.recipe-table th,
-.breads-table th {
-    background: var(--table-header-bg);
-    color: white;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 1rem;
-    text-align: left;
-}
-
-.recipe-table td,
-.breads-table td {
-    padding: 1rem;
-    border-bottom: 1px solid var(--border);
-    transition: background-color 0.3s ease;
-}
-
-.recipe-table tr:hover td,
-.breads-table tr:hover td {
-    background-color: #f1f5f9;
 }
 
 /* Button Styles */
@@ -227,25 +135,6 @@ button {
     text-transform: uppercase;
     letter-spacing: 1px;
     transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-button::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 300px;
-    height: 300px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    transition: transform 0.5s ease;
-}
-
-button:active::after {
-    transform: translate(-50%, -50%) scale(1);
 }
 
 .print-btn {
@@ -258,106 +147,31 @@ button:active::after {
     color: white;
 }
 
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+/* Output Section */
+.output-section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+    padding: 2rem;
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .container {
-        padding: 0.5rem;
-        margin: 0;
-        max-width: 100%;
-        display: flex;
-        flex-direction: column;
-    }
+.output-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
 
-    h1 {
-        font-size: 1.2rem;
-        margin: 0.5rem 0;
-        padding: 0.5rem;
-        order: 1;
-    }
-
-    .input-section {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-        margin-bottom: 1rem;
-        order: 2;
-    }
-
-    .bread-category {
-        padding: 1rem;
-        margin: 0;
-        border: 1px solid var(--border);
-        border-radius: 0.5rem;
-    }
-
-    .bread-category h3 {
-        font-size: 1.2rem;
-        margin-bottom: 1rem;
-        padding-bottom: 0.5rem;
-    }
-
-    .input-group {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 0.75rem;
-    }
-
-    .input-group label {
-        font-size: 1.1rem;
-        margin: 0;
-        flex: 1;
-    }
-
-    input[type="number"] {
-        width: 80px;
-        padding: 0.5rem;
-        font-size: 1.1rem;
-    }
-
-    .buttons {
-        padding: 1rem 0;
-        display: flex;
-        gap: 0.5rem;
-        flex-direction: column;
-        order: 3;
-    }
-
-    button {
-        width: 100%;
-        padding: 0.75rem;
-        font-size: 1.1rem;
-        margin: 0;
-    }
-
-    .output-wrapper {
-        order: 4;
-    }
-
-    .output-section {
-        margin-top: 1rem;
-        padding: 0.5rem;
-        background: var(--surface);
-        border-radius: 0.5rem;
-    }
-
-    .recipe-table,
-    .breads-table {
-        margin-bottom: 1rem;
-        font-size: 1rem;
-        width: 100%;
-    }
 /* Table Styles */
 .recipe-table, 
 .breads-table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
+    border-collapse: collapse;
     margin-bottom: 1rem;
     background: var(--surface);
     border-radius: var(--radius);
@@ -365,246 +179,200 @@ button:hover {
     box-shadow: var(--shadow);
 }
 
-/* Add the new styles here */
-.category-header td {
-    background-color: #f0f0f0 !important;
-    font-weight: bold;
-    padding: 8px !important;
-    border-top: 2px solid #ddd !important;
-}
-
-/* Your existing table styles continue... */
 .recipe-table th,
 .breads-table th {
-    background: var(--table-header-bg);
+    background: var(--header-background);
     color: white;
     font-size: 1.2rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
     padding: 1rem;
     text-align: left;
 }
-    
+
+.recipe-table td,
+.breads-table td {
+    padding: 1rem;
+    border: 1px solid var(--border);
+}
+
 /* Print Styles */
 @media print {
     @page {
         size: A4;
-        margin: 5mm;
+        margin: 10mm;
     }
 
-    /* Hide everything except output */
     .no-print {
         display: none !important;
     }
 
-    /* Show only the title and output */
     body {
         padding: 0 !important;
+    }
+
+    .container {
         margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        background: none !important;
     }
 
     h1 {
         font-size: 16pt !important;
-        margin: 0 0 5mm 0 !important;
-        padding: 0 !important;
-        color: black !important;
+        margin-bottom: 10mm !important;
         text-align: center !important;
-        background: none !important;
-        -webkit-background-clip: unset !important;
-        background-clip: unset !important;
-    }
-
-    h1::after {
-        display: none !important;
-    }
-
-    /* Output section */
-    .output-wrapper {
-        margin: 0 !important;
-        padding: 0 !important;
     }
 
     .output-section {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 5mm !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        background: none !important;
-        box-shadow: none !important;
         opacity: 1 !important;
         transform: none !important;
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: none !important;
+        box-shadow: none !important;
     }
 
-    /* Tables */
     .recipe-table,
     .breads-table {
-        width: 100% !important;
-        border-collapse: collapse !important;
-        margin-bottom: 5mm !important;
         page-break-inside: avoid !important;
+        border: 1pt solid black !important;
+        box-shadow: none !important;
     }
 
     .recipe-table th,
     .breads-table th {
         background-color: #f0f0f0 !important;
         color: black !important;
-        font-weight: bold !important;
-        font-size: 13pt !important;
-        padding: 2mm !important;
         border: 1pt solid black !important;
+        padding: 2mm !important;
     }
 
     .recipe-table td,
     .breads-table td {
-        padding: 2mm !important;
         border: 1pt solid black !important;
-        font-size: 13pt !important;
+        padding: 2mm !important;
     }
 
-    /* Category headers */
-    tr[style*="background-color: #f0f0f0"] td {
-        background-color: #f0f0f0 !important;
-        font-weight: bold !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-    }
-
-    /* Force colors to print */
     * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
-        color-adjust: exact !important;
-    }
-
-    /* Recipe tables grid */
-    .recipe-tables {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
-        gap: 5mm !important;
-        margin-bottom: 5mm !important;
-    }
-
-    /* Hide all decorative elements */
-    .container {
-        background: none !important;
-        box-shadow: none !important;
-        padding: 0 !important;
-        margin: 0 !important;
     }
 }
-    </style>
+</style>
 </head>
 <body>
-    <div class="container">
-    <h1>Bread Production Calculator</h1>
-    
-    <!-- Input Section First -->
-    <div class="input-section">
-        <div class="no-print">  <!-- Add this wrapper -->
-        <div class="input-section">
+    <div class="no-print">
+        <div class="container">
+            <h1>Bread Production Calculator</h1>
+            
+            <!-- Input Section -->
+            <div class="input-section">
                 <!-- White Bread -->
-        <div class="bread-category">
-            <h3>White Bread</h3>
-            <div class="input-group">
-                <label>Small Bloomer (1 lb)</label>
-                <input type="number" id="white-small" min="0">
-            </div>
-            <div class="input-group">
-                <label>Large Bloomer (2 lb)</label>
-                <input type="number" id="white-large" min="0">
-            </div>
-            <div class="input-group">
-                <label>Tins (2 lb)</label>
-                <input type="number" id="white-tin" min="0">
-            </div>
-        </div>
+                <div class="bread-category">
+                    <h3>White Bread</h3>
+                    <div class="input-group">
+                        <label>Small Bloomer (1 lb)</label>
+                        <input type="number" id="white-small" min="0">
+                    </div>
+                    <div class="input-group">
+                        <label>Large Bloomer (2 lb)</label>
+                        <input type="number" id="white-large" min="0">
+                    </div>
+                    <div class="input-group">
+                        <label>Tins (2 lb)</label>
+                        <input type="number" id="white-tin" min="0">
+                    </div>
+                </div>
 
-        <!-- Rye Bread -->
-        <div class="bread-category">
-            <h3>Rye Bread</h3>
-            <div class="input-group">
-                <label>Small Bloomer (1 lb)</label>
-                <input type="number" id="rye-small" min="0">
-            </div>
-            <div class="input-group">
-                <label>Large Bloomer (2 lb)</label>
-                <input type="number" id="rye-large" min="0">
-            </div>
-            <div class="input-group">
-                <label>Tins (2 lb)</label>
-                <input type="number" id="rye-tin" min="0">
-            </div>
-        </div>
+                <!-- Rye Bread -->
+                <div class="bread-category">
+                    <h3>Rye Bread</h3>
+                    <div class="input-group">
+                        <label>Small Bloomer (1 lb)</label>
+                        <input type="number" id="rye-small" min="0">
+                    </div>
+                    <div class="input-group">
+                        <label>Large Bloomer (2 lb)</label>
+                        <input type="number" id="rye-large" min="0">
+                    </div>
+                    <div class="input-group">
+                        <label>Tins (2 lb)</label>
+                        <input type="number" id="rye-tin" min="0">
+                    </div>
+                </div>
 
-        <!-- Black Round Bread -->
-        <div class="bread-category">
-            <h3>Black Round Bread</h3>
-            <div class="input-group">
-                <label>Small (1 lb)</label>
-                <input type="number" id="black-small" min="0">
-            </div>
-        </div>
+                <!-- Black Round Bread -->
+                <div class="bread-category">
+                    <h3>Black Round Bread</h3>
+                    <div class="input-group">
+                        <label>Small (1 lb)</label>
+                        <input type="number" id="black-small" min="0">
+                    </div>
+                </div>
 
-        <!-- Marble Rye Bread -->
-        <div class="bread-category">
-            <h3>Marble Rye Bread</h3>
-            <div class="input-group">
-                <label>Tins (2 lb)</label>
-                <input type="number" id="marble-tin" min="0">
+                <!-- Marble Rye Bread -->
+                <div class="bread-category">
+                    <h3>Marble Rye Bread</h3>
+                    <div class="input-group">
+                        <label>Tins (2 lb)</label>
+                        <input type="number" id="marble-tin" min="0">
+                    </div>
+                </div>
+
+                <!-- Bulka Bread -->
+                <div class="bread-category">
+                    <h3>Bulka</h3>
+                    <div class="input-group">
+                        <label>Bulka</label>
+                        <input type="number" id="bulka-qty" min="0">
+                    </div>
+                </div>
+
+                <!-- Wholemeal Bread -->
+                <div class="bread-category">
+                    <h3>Wholemeal Bread</h3>
+                    <div class="input-group">
+                        <label>Large Bloomer (2 lb)</label>
+                        <input type="number" id="wholemeal-large" min="0">
+                    </div>
+                    <div class="input-group">
+                        <label>Tins (2 lb)</label>
+                        <input type="number" id="wholemeal-tin" min="0">
+                    </div>
+                </div>
+
+                <!-- Granary Bread -->
+                <div class="bread-category">
+                    <h3>Granary Bread</h3>
+                    <div class="input-group">
+                        <label>Small Bloomer (1 lb)</label>
+                        <input type="number" id="granary-small" min="0">
+                    </div>
+                    <div class="input-group">
+                        <label>Large Bloomer (2 lb)</label>
+                        <input type="number" id="granary-large" min="0">
+                    </div>
+                    <div class="input-group">
+                        <label>Tins (2 lb)</label>
+                        <input type="number" id="granary-tin" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="buttons">
+                <button class="print-btn" onclick="window.print()">Print</button>
+                <button class="clear-btn" onclick="clearForm()">Clear</button>
             </div>
         </div>
-<!-- Bulka Bread -->
-<div class="bread-category">
-    <h3>Bulka</h3>
-    <div class="input-group">
-        <label>Bulka </label>
-        <input type="number" id="bulka-qty" min="0">
     </div>
-</div>
-        <!-- Wholemeal Bread -->
-        <div class="bread-category">
-            <h3>Wholemeal Bread</h3>
-            <div class="input-group">
-                <label>Large Bloomer (2 lb)</label>
-                <input type="number" id="wholemeal-large" min="0">
-            </div>
-            <div class="input-group">
-                <label>Tins (2 lb)</label>
-                <input type="number" id="wholemeal-tin" min="0">
-            </div>
-        </div>
 
-        <!-- Granary Bread -->
-      <div class="bread-category">
-    <h3>Granary Bread</h3>
-    <div class="input-group">
-        <label>Small Bloomer (1 lb)</label>
-        <input type="number" id="granary-small" min="0">
+    <!-- Output Section -->
+    <div class="output-wrapper">
+        <div id="output-section" class="output-section"></div>
     </div>
-    <div class="input-group">
-        <label>Large Bloomer (2 lb)</label>
-        <input type="number" id="granary-large" min="0">
-    </div>
-    <div class="input-group">
-        <label>Tins (2 lb)</label>
-        <input type="number" id="granary-tin" min="0">
-    </div>
-</div>
-
-   <div class="buttons">
-            <button class="print-btn" onclick="window.print()">Print</button>
-            <button class="clear-btn" onclick="clearForm()">Clear</button>
-        </div>
-    </div>
-</div>
-    <!-- Output Section Last -->
- <div class="output-wrapper">
-    <div id="output-section" class="output-section"></div>
-</div
-
-<script>
-   // Utility functions
+    <script>
+// Utility functions
 function getInputValue(id) {
     const value = document.getElementById(id).value;
     return value === '' ? 0 : parseInt(value);
@@ -627,7 +395,7 @@ function formatPercentage(value) {
 }
 
 function formatBags(grams) {
-    const bags = grams / 16000; // 16kg = 16000g per bag
+    const bags = grams / 16000;
     if (bags < 0.1) return '';
     return `(${bags.toFixed(1)} bag${bags > 1.1 ? 's' : ''})`;
 }
@@ -641,9 +409,9 @@ function calculateWhiteDoughWeight(inputs) {
            (inputs.rye.large * 907) +
            (inputs.rye.tin * 907) +
            (inputs.black.small * 454) +
-           (inputs.marble.tin * 907);
+           (inputs.marble.tin * 907) +
+           (inputs.bulka.qty * 907);
 }
-
 
 function calculateWholemealDoughWeight(inputs) {
     return (inputs.wholemeal.large * 907) + 
@@ -651,7 +419,7 @@ function calculateWholemealDoughWeight(inputs) {
 }
 
 function calculateGranaryDoughWeight(inputs) {
-    return (inputs.granary.small * 454) +  // Add this line for 1lb
+    return (inputs.granary.small * 454) + 
            (inputs.granary.large * 907) + 
            (inputs.granary.tin * 907);
 }
@@ -660,17 +428,17 @@ function calculateGranaryDoughWeight(inputs) {
 function calculateWhiteRecipe(totalDoughWeight) {
     const scaleFactor = totalDoughWeight / 1600;
     const flour = 1000 * scaleFactor;
-    const water = 550 * scaleFactor;  // 55% hydration
+    const water = 550 * scaleFactor;
     const salt = 20 * scaleFactor;
     const yeast = 20 * scaleFactor;
     const oil = 13 * scaleFactor;
     
     return {
-        flour: flour,
-        water: water,
-        salt: salt,
-        yeast: yeast,
-        oil: oil,
+        flour,
+        water,
+        salt,
+        yeast,
+        oil,
         total: totalDoughWeight,
         percentages: {
             flour: 100.0,
@@ -687,7 +455,7 @@ function calculateWholemealRecipe(totalDoughWeight) {
     const heygateFlour = 500 * scaleFactor;
     const wholemealFlour = 500 * scaleFactor;
     const totalFlour = heygateFlour + wholemealFlour;
-    const water = 600 * scaleFactor;  // 60% hydration
+    const water = 600 * scaleFactor;
     const salt = 20 * scaleFactor;
     const yeast = 25 * scaleFactor;
     const oil = 13 * scaleFactor;
@@ -695,10 +463,10 @@ function calculateWholemealRecipe(totalDoughWeight) {
     return {
         heygate: heygateFlour,
         wholemeal: wholemealFlour,
-        water: water,
-        salt: salt,
-        yeast: yeast,
-        oil: oil,
+        water,
+        salt,
+        yeast,
+        oil,
         total: totalDoughWeight,
         percentages: {
             heygate: (heygateFlour / totalFlour) * 100,
@@ -710,13 +478,12 @@ function calculateWholemealRecipe(totalDoughWeight) {
         }
     };
 }
-
 function calculateGranaryRecipe(totalDoughWeight) {
     const scaleFactor = totalDoughWeight / 1650;
     const heygateFlour = 500 * scaleFactor;
     const granaryFlour = 500 * scaleFactor;
     const totalFlour = heygateFlour + granaryFlour;
-    const water = 600 * scaleFactor;  // 60% hydration
+    const water = 600 * scaleFactor;
     const salt = 20 * scaleFactor;
     const yeast = 25 * scaleFactor;
     const oil = 13 * scaleFactor;
@@ -724,10 +491,10 @@ function calculateGranaryRecipe(totalDoughWeight) {
     return {
         heygate: heygateFlour,
         granary: granaryFlour,
-        water: water,
-        salt: salt,
-        yeast: yeast,
-        oil: oil,
+        water,
+        salt,
+        yeast,
+        oil,
         total: totalDoughWeight,
         percentages: {
             heygate: (heygateFlour / totalFlour) * 100,
@@ -740,7 +507,6 @@ function calculateGranaryRecipe(totalDoughWeight) {
     };
 }
 
-// Table generation
 function generateRecipeTable(title, recipe) {
     if (recipe.total === 0) return '';
     
@@ -845,6 +611,7 @@ function generateRecipeTable(title, recipe) {
         `;
     }
 }
+
 function generateBreadsList(inputs) {
     let html = `
     <table class="breads-table">
@@ -957,7 +724,6 @@ function calculateRecipe() {
         </div>
     `;
     
-    // Show output section
     outputSection.classList.add('visible');
 }
 
@@ -967,20 +733,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     inputs.forEach(input => {
         input.addEventListener('input', function() {
-            // Remove non-numeric characters
             this.value = this.value.replace(/[^0-9]/g, '');
-            
-            // Remove leading zeros
             if (this.value.length > 1) {
                 this.value = this.value.replace(/^0+/, '');
             }
-            
-            // Prevent negative numbers
-            if (parseInt(this.value) < 0) {
-                this.value = '0';
-            }
-            
-            // Trigger calculation
             calculateRecipe();
         });
     });
@@ -998,4 +754,4 @@ function clearForm() {
 }
 </script>
 </body>
-</html> 
+</html>
