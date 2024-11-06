@@ -198,26 +198,27 @@ button {
 @media print {
     @page {
         size: A4;
-        margin: 10mm;
+        margin: 8mm;
     }
 
     body {
         font-size: 14pt !important;
-        padding: 0 !important;
         margin: 0 !important;
+        padding: 0 !important;
         color: black !important;
     }
 
     h1 {
-        font-size: 16pt !important;
+        font-size: 14pt !important;
         text-align: center;
-        margin: 0 0 5mm 0 !important;
+        margin: 0 0 5mm 0;
         color: black !important;
     }
 
     .output-section {
-        display: grid;
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+        gap: 2mm;
         padding: 0 !important;
         margin: 0 !important;
         width: 100%;
@@ -237,7 +238,7 @@ button {
     .breads-table th {
         background-color: #f0f0f0 !important;
         color: black !important;
-        padding: 1.5mm;
+        padding: 1mm;
         font-weight: bold;
         text-align: left;
         border: 0.5pt solid black;
@@ -245,18 +246,18 @@ button {
 
     .recipe-table td, 
     .breads-table td {
-        padding: 1mm 1.5mm;
+        padding: 1mm;
         border: 0.5pt solid black;
     }
 
-    /* Ensure all content is visible and backgrounds print */
+    /* Force visibility of table headers on a single page */
     * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
         overflow: visible !important;
     }
 
-    /* Hide non-printable sections */
+    /* Hide non-printable content */
     .no-print {
         display: none !important;
     }
