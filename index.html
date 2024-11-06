@@ -198,125 +198,70 @@ button {
 @media print {
     @page {
         size: A4;
-        margin: 5mm;
+        margin: 10mm;
     }
 
     body {
+        font-size: 14pt !important;
         padding: 0 !important;
         margin: 0 !important;
-    }
-
-    .no-print {
-        display: none !important;
+        color: black !important;
     }
 
     h1 {
         font-size: 16pt !important;
-        margin: 0 0 3mm 0 !important;
-        padding: 0 !important;
-        text-align: center !important;
+        text-align: center;
+        margin: 0 0 5mm 0 !important;
         color: black !important;
     }
 
-    /* Main output layout - side by side */
     .output-section {
-        display: grid !important;
-        grid-template-columns: 60% 40% !important;  /* Recipes | Breads List */
-        gap: 3mm !important;
+        display: grid;
+        grid-template-columns: 1fr;
         padding: 0 !important;
         margin: 0 !important;
-        background: none !important;
-        box-shadow: none !important;
-        height: auto !important;
-        overflow: visible !important;
+        width: 100%;
     }
 
-    /* Recipe tables container */
-    .recipe-tables {
-        grid-column: 1 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 3mm !important;
-    }
-
-    /* Breads list container */
-    .breads-list {
-        grid-column: 2 !important;
-    }
-
-    /* Table styles with reduced spacing */
     .recipe-table, 
     .breads-table {
-        font-size: 12pt !important;  /* Slightly reduced font size */
+        font-size: 14pt !important;
         width: 100% !important;
-        border-collapse: collapse !important;
-        margin-bottom: 2mm !important;
-        page-break-inside: avoid !important;
+        border-collapse: collapse;
+        margin-bottom: 2mm;
+        page-break-inside: avoid;
+        border: 0.5pt solid black;
     }
 
-    .recipe-table th,
+    .recipe-table th, 
     .breads-table th {
         background-color: #f0f0f0 !important;
         color: black !important;
-        padding: 1.5mm !important;  /* Reduced padding */
-        font-size: 12pt !important;
-        font-weight: bold !important;
-        border: 0.5pt solid black !important;
-        text-align: left !important;
+        padding: 1.5mm;
+        font-weight: bold;
+        text-align: left;
+        border: 0.5pt solid black;
     }
 
-    .recipe-table td,
+    .recipe-table td, 
     .breads-table td {
-        padding: 1mm 1.5mm !important;  /* Reduced padding */
-        border: 0.5pt solid black !important;
-        font-size: 12pt !important;
-        line-height: 1.1 !important;  /* Reduced line height */
+        padding: 1mm 1.5mm;
+        border: 0.5pt solid black;
     }
 
-    /* Category headers */
-    tr[style*="background-color: #f0f0f0"] td {
-        background-color: #f0f0f0 !important;
-        font-weight: bold !important;
-        padding: 1mm 1.5mm !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-    }
-
-    /* Remove any fixed heights or overflow restrictions */
-    .output-wrapper {
-        height: auto !important;
-        max-height: none !important;
-        overflow: visible !important;
-    }
-
-    /* Force backgrounds to print */
+    /* Ensure all content is visible and backgrounds print */
     * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
-    }
-
-    /* Optimize spacing between sections */
-    tr[style*="background-color: #f0f0f0"] {
-        margin-top: 2mm !important;
-    }
-
-    /* Remove any box shadows and borders in print */
-    .recipe-table,
-    .breads-table {
-        box-shadow: none !important;
-        border: 0.5pt solid black !important;
-    }
-
-    /* Make sure no content is cut off */
-    * {
         overflow: visible !important;
     }
 
-    /* Space between header sections in breads list */
-    .breads-table tr td[colspan="2"] {
-        padding: 0.5mm !important;
+    /* Hide non-printable sections */
+    .no-print {
+        display: none !important;
     }
 }
+
 </style>
 </head>
 <body>
