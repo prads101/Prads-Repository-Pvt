@@ -58,49 +58,60 @@ h1 {
     padding: 1rem;
     position: relative;
 }
-
-/* Compact Input Section */
+/* Responsive Grid Layout for Input Section */
 .input-section {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));  /* Smaller min width */
-    gap: 1rem;  /* Reduced gap between cards */
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));  /* Smaller min width to fit more items */
+    gap: 0.5rem;  /* Smaller gap between cards */
     margin-bottom: 1rem;
+    padding: 0.5rem;  /* Reduced padding around section */
 }
 
 /* Compact Bread Category Cards */
 .bread-category {
     background: var(--surface);
-    padding: 0.75rem;  /* Reduced padding */
+    padding: 0.5rem;  /* Reduced padding inside cards */
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
 }
 
+/* Header for Each Category */
 .bread-category h3 {
-    font-size: 1rem;  /* Smaller font size for headings */
-    margin-bottom: 0.5rem;  /* Less space below heading */
-    padding-bottom: 0.25rem; /* Reduced padding at bottom */
-    border-bottom: 1px solid var(--primary);
-}
-
-.input-group {
-    margin-bottom: 0.5rem;  /* Reduced space between input groups */
-}
-
-/* Input Labels and Fields */
-.input-group label {
-    font-size: 1rem;  /* Smaller font for labels */
+    font-size: 0.9rem;  /* Smaller font size for headings */
     margin-bottom: 0.25rem;
-}
-
-input[type="number"] {
-    width: 70px;         /* Reduced width for input fields */
-    padding: 0.5rem;     /* Reduced padding for input fields */
-    font-size: 0.9rem;   /* Smaller font size */
-    border-radius: 6px;  /* Adjusted radius for a compact look */
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--primary);
     text-align: center;
 }
 
+/* Input Group with Aligned Layout */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0.3rem;  /* Reduced spacing between input groups */
+}
+
+/* Labels and Input Boxes */
+.input-group label {
+    font-size: 0.8rem;  /* Smaller font size for labels */
+    margin-bottom: 0.2rem;
+    text-align: center;
+}
+
+input[type="number"] {
+    width: 100%;               /* Full width for alignment */
+    max-width: 80px;           /* Ensures consistent width across devices */
+    padding: 0.3rem;           /* Reduced padding for compact inputs */
+    font-size: 0.85rem;        /* Smaller font size for inputs */
+    border-radius: 4px;
+    text-align: center;
+}
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
