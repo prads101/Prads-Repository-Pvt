@@ -58,57 +58,57 @@ h1 {
     padding: 1rem;
     position: relative;
 }
-/* Original Input Section Layout */
+/* Input Section Layout */
 .input-section {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));  /* Original width */
-    gap: 2rem;  /* Original spacing between cards */
-    margin-bottom: 2rem;
-    padding: 0;  /* Reset padding around section */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjusted width to fit better */
+    gap: 1.5rem;  /* Balanced spacing between cards */
+    margin-bottom: 1.5rem;
+    padding: 0.5rem;
 }
 
-/* Original Bread Category Card Layout */
+/* Bread Category Card */
 .bread-category {
     background: var(--surface);
-    padding: 1.5rem;   /* Original padding */
+    padding: 1rem;              /* Tight padding for compactness */
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    border: 2px solid var(--border);
+    border: 1px solid var(--border);
 }
 
-/* Heading for Each Category */
+/* Heading Style for Each Category */
 .bread-category h3 {
-    font-size: 1.3rem;  /* Original font size */
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--primary);
-    text-align: left;   /* Left-aligned headings */
+    font-size: 1.2rem;          /* Slightly smaller font for headings */
+    margin-bottom: 1rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--primary);
+    text-align: left;
 }
 
-/* Original Input Group Layout */
+/* Input Group with Inline Layout */
 .input-group {
-    margin-bottom: 1.2rem;  /* Original spacing between input groups */
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;        /* Controlled space between groups */
 }
 
-/* Label and Input Layout */
+/* Label Style */
 .input-group label {
-    font-size: 1rem;        /* Original font size for labels */
-    margin-bottom: 0.5rem;
-    color: var(--text);
-    font-weight: 500;
+    font-size: 1rem;            /* Readable font size */
+    flex: 1;                    /* Allow label to take up available space */
+    margin-right: 0.5rem;       /* Space between label and input */
+    text-align: left;
 }
 
+/* Input Box Style */
 input[type="number"] {
-    width: 80px;            /* Original input width */
-    padding: 0.75rem;       /* Original padding */
-    border: 2px solid var(--border);
-    border-radius: 8px;
+    width: 80px;                /* Standard input width */
+    padding: 0.5rem;            /* Compact padding for inputs */
+    font-size: 1rem;            /* Consistent font size */
+    border: 1px solid var(--border);
+    border-radius: 4px;
     text-align: center;
-    font-size: 1.1rem;      /* Original font size for inputs */
-    font-weight: 500;
-    appearance: none;
-    -moz-appearance: textfield;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
