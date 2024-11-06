@@ -198,11 +198,11 @@ button {
 @media print {
     @page {
         size: A4;
-        margin: 8mm;
+        margin: 5mm;  /* Reduced margin */
     }
 
     body {
-        font-size: 14pt !important;
+        font-size: 14pt !important;  /* Keep font size at 14pt */
         margin: 0 !important;
         padding: 0 !important;
         color: black !important;
@@ -211,25 +211,26 @@ button {
     h1 {
         font-size: 14pt !important;
         text-align: center;
-        margin: 0 0 5mm 0;
-        color: black !important;
+        margin-bottom: 4mm;  /* Slightly reduced for more space */
     }
 
+    /* Compact 2-column grid layout for tables */
     .output-section {
-        display: flex;
-        flex-direction: column;
-        gap: 2mm;
+        display: grid;
+        grid-template-columns: 1fr 1fr;  /* Two columns */
+        gap: 4mm;
         padding: 0 !important;
         margin: 0 !important;
         width: 100%;
     }
 
+    /* Ensure tables are compact and fit within grid */
     .recipe-table, 
     .breads-table {
         font-size: 14pt !important;
         width: 100% !important;
         border-collapse: collapse;
-        margin-bottom: 2mm;
+        margin: 0;
         page-break-inside: avoid;
         border: 0.5pt solid black;
     }
@@ -238,7 +239,7 @@ button {
     .breads-table th {
         background-color: #f0f0f0 !important;
         color: black !important;
-        padding: 1mm;
+        padding: 1mm;  /* Minimized padding */
         font-weight: bold;
         text-align: left;
         border: 0.5pt solid black;
@@ -246,22 +247,23 @@ button {
 
     .recipe-table td, 
     .breads-table td {
-        padding: 1mm;
+        padding: 0.5mm 1mm;  /* Reduced padding to save space */
         border: 0.5pt solid black;
     }
 
-    /* Force visibility of table headers on a single page */
+    /* Ensure all elements print correctly */
     * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
         overflow: visible !important;
     }
 
-    /* Hide non-printable content */
+    /* Hide non-print content */
     .no-print {
         display: none !important;
     }
 }
+
 
 </style>
 </head>
