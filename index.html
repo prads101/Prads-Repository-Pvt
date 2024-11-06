@@ -198,64 +198,108 @@ button {
 @media print {
     @page {
         size: A4;
-        margin: 10mm;
+        margin: 8mm;  /* Reduced margins */
+    }
+
+    body {
+        padding: 0 !important;
+        margin: 0 !important;
     }
 
     .no-print {
         display: none !important;
     }
 
-    body {
-        padding: 0 !important;
-    }
-
-    .container {
-        margin: 0 !important;
-        padding: 0 !important;
-        box-shadow: none !important;
-        background: none !important;
-    }
-
     h1 {
-        font-size: 16pt !important;
-        margin-bottom: 10mm !important;
+        font-size: 14pt !important;
+        margin: 0 0 4mm 0 !important;
+        padding: 0 !important;
         text-align: center !important;
+        color: black !important;
     }
 
+    /* Output section layout */
     .output-section {
-        opacity: 1 !important;
-        transform: none !important;
-        display: block !important;
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;  /* Two columns */
+        gap: 4mm !important;
         padding: 0 !important;
         margin: 0 !important;
         background: none !important;
         box-shadow: none !important;
     }
 
-    .recipe-table,
+    /* Recipe tables container */
+    .recipe-tables {
+        grid-column: 1 / -1 !important;  /* Span all columns */
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 4mm !important;
+        margin-bottom: 4mm !important;
+    }
+
+    /* Breads list */
+    .breads-list {
+        grid-column: 1 / -1 !important;
+    }
+
+    /* Table styles */
+    .recipe-table, 
     .breads-table {
-        page-break-inside: avoid !important;
-        border: 1pt solid black !important;
-        box-shadow: none !important;
+        font-size: 9pt !important;  /* Smaller font */
+        margin: 0 !important;
+        width: 100% !important;
+        border-collapse: collapse !important;
+        break-inside: avoid !important;
     }
 
     .recipe-table th,
     .breads-table th {
         background-color: #f0f0f0 !important;
         color: black !important;
-        border: 1pt solid black !important;
-        padding: 2mm !important;
+        padding: 2mm 1mm !important;
+        font-size: 9pt !important;
+        font-weight: bold !important;
+        border: 0.5pt solid black !important;
     }
 
     .recipe-table td,
     .breads-table td {
-        border: 1pt solid black !important;
-        padding: 2mm !important;
+        padding: 1mm !important;
+        border: 0.5pt solid black !important;
+        font-size: 9pt !important;
     }
 
+    /* Category headers in breads list */
+    tr[style*="background-color: #f0f0f0"] td {
+        background-color: #f0f0f0 !important;
+        font-weight: bold !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* Force backgrounds to print */
     * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
+    }
+
+    /* Optimize spacing */
+    .recipe-table tr td,
+    .breads-table tr td {
+        line-height: 1.2 !important;
+    }
+
+    /* Make sure everything fits on one page */
+    .output-wrapper {
+        max-height: 277mm !important;  /* A4 height minus margins */
+        overflow: hidden !important;
+    }
+
+    /* Remove shadows and decorations */
+    * {
+        box-shadow: none !important;
+        text-shadow: none !important;
     }
 }
 </style>
