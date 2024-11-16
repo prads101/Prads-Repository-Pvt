@@ -578,8 +578,8 @@ function calculateGranaryRecipe(totalDoughWeight) {
     const water = 600 * scaleFactor;
     const salt = 20 * scaleFactor;
     const yeast = 25 * scaleFactor;
-    const oil = 10 * scaleFactor;     // Adjusted to be separate from S500
-    const s500 = 3 * scaleFactor;     // Added S500 as separate ingredient
+    const oil = 25 * scaleFactor;     // 2.5% of flour weight
+    const s500 = 7.5 * scaleFactor;   // 0.75% of flour weight
     
     return {
         heygate: heygateFlour,
