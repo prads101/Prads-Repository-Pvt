@@ -842,15 +842,13 @@ function generateBreadsList(inputs) {
         
         // White Bloomers
         if (inputs.white.small > 0 || inputs.white.large > 0) {
-            html += `<tr><td colspan="2" style="padding-left: 20px;"><em>Bloomers</em></td></tr>`;
             if (inputs.white.small > 0) html += `<tr><td style="padding-left: 40px;">Small White Bloomer (1 lb)</td><td>${inputs.white.small}</td></tr>`;
             if (inputs.white.large > 0) html += `<tr><td style="padding-left: 40px;">Large White Bloomer (2 lb)</td><td>${inputs.white.large}</td></tr>`;
         }
         
         // White Tins
         if (inputs.white.tin > 0) {
-            html += `<tr><td colspan="2" style="padding-left: 20px;"><em>Tins</em></td></tr>`;
-            html += `<tr><td style="padding-left: 40px;">Square White Tin (2 lb)</td><td>${inputs.white.tin}</td></tr>`;
+            html += `<tr><td style="padding-left: 40px;"><strong>Sq White Tin (2 lb)</strong)</td><td>${inputs.white.tin}</td></tr>`;
         }
     }
 
@@ -871,7 +869,7 @@ function generateBreadsList(inputs) {
         
         // Rye Tins
         if (inputs.rye.tin > 0) {
-            html += `<tr><td style="padding-left: 40px;">Square Rye Tin (2 lb)</td><td>${inputs.rye.tin}</td></tr>`;
+            html += `<tr><td style="padding-left: 40px;"><strong>Sq Rye Tin (2 lb)</strong></td><td>${inputs.rye.tin}</td></tr>`;
         }
     }
 
@@ -882,7 +880,7 @@ function generateBreadsList(inputs) {
         html += `<tr style="background-color: #f0f0f0;">
             <td colspan="2"><strong>Marble Rye Bread</strong></td>
         </tr>`;
-             html += `<tr><td style="padding-left: 40px;">Square Marble Rye Tin (2 lb)</td><td>${inputs.marble.tin}</td></tr>`;
+             html += `<tr><td style="padding-left: 40px;"><strong>Sq Marble Rye Tin (2 lb)</strong></td><td>${inputs.marble.tin}</td></tr>`;
     }
 
     // Black Round Section
@@ -911,7 +909,7 @@ function generateBreadsList(inputs) {
         
         // Wholemeal Tins
         if (inputs.wholemeal.tin > 0) {
-            html += `<tr><td style="padding-left: 40px;">Square Wholemeal Tin (2 lb)</td><td>${inputs.wholemeal.tin}</td></tr>`;
+            html += `<tr><td style="padding-left: 40px;"><strong>Sq Wholemeal Tin (2 lb)</strong></td><td>${inputs.wholemeal.tin}</td></tr>`;
         }
     }
 
@@ -932,7 +930,7 @@ function generateBreadsList(inputs) {
         
         // Granary Tins
         if (inputs.granary.tin > 0) {
-            html += `<tr><td style="padding-left: 40px;">Square Granary Tin (2 lb)</td><td>${inputs.granary.tin}</td></tr>`;
+            html += `<tr><td style="padding-left: 40px;"><strong>Sq Granary Tin (2 lb)<strong></td><td>${inputs.granary.tin}</td></tr>`;
         }
     }
 
