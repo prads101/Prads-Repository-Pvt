@@ -715,9 +715,7 @@ function generateRecipeTable(title, recipe) {
                         <td><strong>${formatWeight(recipe.total)}</strong></td>
                         <td>-</td>
                     </tr>
-                    <tr>
-                        <td colspan="3"><em>Note: Includes 10% extra for wastage</em></td>
-                    </tr>
+                   
                 </tbody>
             </table>
         `;
@@ -764,9 +762,7 @@ function generateRecipeTable(title, recipe) {
                         <td><strong>${formatWeight(recipe.total)}</strong></td>
                         <td>-</td>
                     </tr>
-                    <tr>
-                        <td colspan="3"><em>Note: Includes 10% extra for wastage</em></td>
-                    </tr>
+                   
                 </tbody>
             </table>
         `;
@@ -823,9 +819,7 @@ function generateRecipeTable(title, recipe) {
                         <td><strong>${formatWeight(recipe.total)}</strong></td>
                         <td>-</td>
                     </tr>
-                    <tr>
-                        <td colspan="3"><em>Note: Includes 10% extra for wastage</em></td>
-                    </tr>
+                   
                 </tbody>
             </table>
         `;
@@ -871,14 +865,12 @@ function generateBreadsList(inputs) {
         
         // Rye Bloomers
         if (inputs.rye.small > 0 || inputs.rye.large > 0) {
-            html += `<tr><td colspan="2" style="padding-left: 20px;"><em>Bloomers</em></td></tr>`;
-            if (inputs.rye.small > 0) html += `<tr><td style="padding-left: 40px;">Small Rye Bloomer (1 lb)</td><td>${inputs.rye.small}</td></tr>`;
+                       if (inputs.rye.small > 0) html += `<tr><td style="padding-left: 40px;">Small Rye Bloomer (1 lb)</td><td>${inputs.rye.small}</td></tr>`;
             if (inputs.rye.large > 0) html += `<tr><td style="padding-left: 40px;">Large Rye Bloomer (2 lb)</td><td>${inputs.rye.large}</td></tr>`;
         }
         
         // Rye Tins
         if (inputs.rye.tin > 0) {
-            html += `<tr><td colspan="2" style="padding-left: 20px;"><em>Tins</em></td></tr>`;
             html += `<tr><td style="padding-left: 40px;">Square Rye Tin (2 lb)</td><td>${inputs.rye.tin}</td></tr>`;
         }
     }
@@ -890,8 +882,7 @@ function generateBreadsList(inputs) {
         html += `<tr style="background-color: #f0f0f0;">
             <td colspan="2"><strong>Marble Rye Bread</strong></td>
         </tr>`;
-        html += `<tr><td colspan="2" style="padding-left: 20px;"><em>Tins</em></td></tr>`;
-        html += `<tr><td style="padding-left: 40px;">Square Marble Rye Tin (2 lb)</td><td>${inputs.marble.tin}</td></tr>`;
+             html += `<tr><td style="padding-left: 40px;">Square Marble Rye Tin (2 lb)</td><td>${inputs.marble.tin}</td></tr>`;
     }
 
     // Black Round Section
@@ -901,7 +892,6 @@ function generateBreadsList(inputs) {
         html += `<tr style="background-color: #f0f0f0;">
             <td colspan="2"><strong>Black Round Bread</strong></td>
         </tr>`;
-        html += `<tr><td colspan="2" style="padding-left: 20px;"><em>Bloomers</em></td></tr>`;
         html += `<tr><td style="padding-left: 40px;">Small Black Round (1 lb)</td><td>${inputs.black.small}</td></tr>`;
     }
 
@@ -916,13 +906,11 @@ function generateBreadsList(inputs) {
         
         // Wholemeal Bloomers
         if (inputs.wholemeal.large > 0) {
-            html += `<tr><td colspan="2" style="padding-left: 20px;"><em>Bloomers</em></td></tr>`;
             html += `<tr><td style="padding-left: 40px;">Large Wholemeal Bloomer (2 lb)</td><td>${inputs.wholemeal.large}</td></tr>`;
         }
         
         // Wholemeal Tins
         if (inputs.wholemeal.tin > 0) {
-            html += `<tr><td colspan="2" style="padding-left: 20px;"><em>Tins</em></td></tr>`;
             html += `<tr><td style="padding-left: 40px;">Square Wholemeal Tin (2 lb)</td><td>${inputs.wholemeal.tin}</td></tr>`;
         }
     }
@@ -938,14 +926,12 @@ function generateBreadsList(inputs) {
         
         // Granary Bloomers
         if (inputs.granary.small > 0 || inputs.granary.large > 0) {
-            html += `<tr><td colspan="2" style="padding-left: 20px;"><em>Bloomers</em></td></tr>`;
             if (inputs.granary.small > 0) html += `<tr><td style="padding-left: 40px;">Small Granary Bloomer (1 lb)</td><td>${inputs.granary.small}</td></tr>`;
             if (inputs.granary.large > 0) html += `<tr><td style="padding-left: 40px;">Large Granary Bloomer (2 lb)</td><td>${inputs.granary.large}</td></tr>`;
         }
         
         // Granary Tins
         if (inputs.granary.tin > 0) {
-            html += `<tr><td colspan="2" style="padding-left: 20px;"><em>Tins</em></td></tr>`;
             html += `<tr><td style="padding-left: 40px;">Square Granary Tin (2 lb)</td><td>${inputs.granary.tin}</td></tr>`;
         }
     }
