@@ -264,6 +264,43 @@ button {
         width: 100%;
     }
 }
+        .info-table {
+    width: 100%;
+    margin-bottom: 2rem;
+    border-collapse: collapse;
+    background: var(--surface);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.info-table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+}
+
+.info-table td:first-child {
+    width: 150px;
+    background-color: var(--header-background);
+    color: white;
+}
+
+@media print {
+    .info-table {
+        margin-bottom: 1rem;
+        box-shadow: none;
+    }
+
+    .info-table td {
+        padding: 0.25rem 0.5rem;
+        font-size: 12pt;
+    }
+
+    .info-table td:first-child {
+        background-color: #f0f0f0 !important;
+        color: black !important;
+    }
+}
 
 /* Print Styles */
 @media print {
@@ -485,31 +522,59 @@ function formatBags(grams) {
     if (bags < 0.1) return '';
     return `(${bags.toFixed(1)} bag${bags > 1.1 ? 's' : ''})`;
 }
+// Modify the start of your existing calculateRecipe function
+async function calculateRecipe() {
+    const weatherData = await getWeatherData();
+    
+    const inputs = {
+        // ... your existing input gathering code ...
+    };
 
-// Calculate weights
+    // Create info section with weather data
+    const infoSection = document.createElement('div');
+    infoSection.className = 'info-section';
+    infoSection.innerHTML = generateInfoSection(weatherData);
+    
+    // Get references to containers
+    const outputSection = document.getElementById('output-section');
+    outputSection.innerHTML = '';
+    outputSection.appendChild(infoSection);
+    
+    // Rest of your existing calculateRecipe code...
+}
+// Calculate weights with 10% extra
 function calculateWhiteDoughWeight(inputs) {
-    return (inputs.white.small * 454) + 
+    const baseWeight = (inputs.white.small * 454) + 
            (inputs.white.large * 907) + 
            (inputs.white.tin * 907) +
            (inputs.rye.small * 454) +
            (inputs.rye.large * 907) +
            (inputs.rye.tin * 907) +
            (inputs.black.small * 454) +
-           (inputs.marble.tin * 907);    // Removed bulka and fixed syntax
+           (inputs.marble.tin * 907);
+    
+    // Add 10% extra
+    return baseWeight * 1.1;
 }
 
 function calculateWholemealDoughWeight(inputs) {
-    return (inputs.wholemeal.large * 907) + 
+    const baseWeight = (inputs.wholemeal.large * 907) + 
            (inputs.wholemeal.tin * 907);
+           
+    // Add 10% extra
+    return baseWeight * 1.1;
 }
 
 function calculateGranaryDoughWeight(inputs) {
-    return (inputs.granary.small * 454) + 
+    const baseWeight = (inputs.granary.small * 454) + 
            (inputs.granary.large * 907) + 
            (inputs.granary.tin * 907);
+           
+    // Add 10% extra
+    return baseWeight * 1.1;
 }
 
-// Recipe calculations with separate oil and S500
+// Recipe calculations with 10% extra and modified granary recipe
 function calculateWhiteRecipe(totalDoughWeight) {
     const scaleFactor = totalDoughWeight / 1600;
     const flour = 1000 * scaleFactor;
@@ -546,8 +611,8 @@ function calculateWholemealRecipe(totalDoughWeight) {
     const water = 600 * scaleFactor;
     const salt = 20 * scaleFactor;
     const yeast = 25 * scaleFactor;
-    const oil = 25 * scaleFactor;     // 2.5% of flour weight
-    const s500 = 7.5 * scaleFactor;   // 0.75% of flour weight
+    const oil = 25 * scaleFactor;     
+    const s500 = 7.5 * scaleFactor;   
     
     return {
         heygate: heygateFlour,
@@ -576,38 +641,33 @@ function calculateGranaryRecipe(totalDoughWeight) {
     const granaryFlour = 500 * scaleFactor;
     const totalFlour = heygateFlour + granaryFlour;
     const water = 600 * scaleFactor;
-    const salt = 20 * scaleFactor;
-    const yeast = 25 * scaleFactor;
-    const oil = 25 * scaleFactor;     // 2.5% of flour weight
-    const s500 = 7.5 * scaleFactor;   // 0.75% of flour weight
+    const yeast = 25 * scaleFactor;   // Keep yeast
+    const s500 = 7.5 * scaleFactor;   // Keep S500
+    
+    // Note: Salt and Oil removed as per requirements
     
     return {
         heygate: heygateFlour,
         granary: granaryFlour,
         water,
-        salt,
         yeast,
-        oil,
         s500,
         total: totalDoughWeight,
         percentages: {
             heygate: (heygateFlour / totalFlour) * 100,
             granary: (granaryFlour / totalFlour) * 100,
             water: (water / totalFlour) * 100,
-            salt: (salt / totalFlour) * 100,
             yeast: (yeast / totalFlour) * 100,
-            oil: (oil / totalFlour) * 100,
             s500: (s500 / totalFlour) * 100
         }
     };
 }
-
 function generateRecipeTable(title, recipe) {
     if (recipe.total === 0) return '';
     
     let rows = '';
     if ('flour' in recipe) {
-        // White bread recipe - show bags in header
+        // White bread recipe
         const bagInfo = formatBags(recipe.flour);
         rows += `
             <tr>
@@ -655,11 +715,14 @@ function generateRecipeTable(title, recipe) {
                         <td><strong>${formatWeight(recipe.total)}</strong></td>
                         <td>-</td>
                     </tr>
+                    <tr>
+                        <td colspan="3"><em>Note: Includes 10% extra for wastage</em></td>
+                    </tr>
                 </tbody>
             </table>
         `;
-    } else {
-        // Wholemeal/Granary bread recipes - no bags info
+    } else if (title.includes('Granary')) {
+        // Granary bread recipe - without salt and oil
         rows += `
             <tr>
                 <td>Heygate Flour</td>
@@ -667,9 +730,58 @@ function generateRecipeTable(title, recipe) {
                 <td>${formatPercentage(recipe.percentages.heygate)}</td>
             </tr>
             <tr>
-                <td>${title.includes('Wholemeal') ? 'Wholemeal' : 'Granary'} Flour</td>
-                <td>${formatWeight(recipe.wholemeal || recipe.granary)}</td>
-                <td>${formatPercentage(recipe.percentages.wholemeal || recipe.percentages.granary)}</td>
+                <td>Granary Flour</td>
+                <td>${formatWeight(recipe.granary)}</td>
+                <td>${formatPercentage(recipe.percentages.granary)}</td>
+            </tr>
+            <tr>
+                <td>Water</td>
+                <td>${formatVolume(recipe.water)}</td>
+                <td>${formatPercentage(recipe.percentages.water)}</td>
+            </tr>
+        `;
+        
+        return `
+            <table class="recipe-table">
+                <thead>
+                    <tr>
+                        <th colspan="3">${title}</th>
+                    </tr>
+                </thead>
+                <tbody>${rows}
+                    <tr>
+                        <td>Yeast (Fresh)</td>
+                        <td>${formatWeight(recipe.yeast)}</td>
+                        <td>${formatPercentage(recipe.percentages.yeast)}</td>
+                    </tr>
+                    <tr>
+                        <td>S500 (Improver)</td>
+                        <td>${formatWeight(recipe.s500)}</td>
+                        <td>${formatPercentage(recipe.percentages.s500)}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Dough Weight</strong></td>
+                        <td><strong>${formatWeight(recipe.total)}</strong></td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><em>Note: Includes 10% extra for wastage</em></td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
+    } else {
+        // Wholemeal bread recipe
+        rows += `
+            <tr>
+                <td>Heygate Flour</td>
+                <td>${formatWeight(recipe.heygate)}</td>
+                <td>${formatPercentage(recipe.percentages.heygate)}</td>
+            </tr>
+            <tr>
+                <td>Wholemeal Flour</td>
+                <td>${formatWeight(recipe.wholemeal)}</td>
+                <td>${formatPercentage(recipe.percentages.wholemeal)}</td>
             </tr>
             <tr>
                 <td>Water</td>
@@ -711,11 +823,15 @@ function generateRecipeTable(title, recipe) {
                         <td><strong>${formatWeight(recipe.total)}</strong></td>
                         <td>-</td>
                     </tr>
+                    <tr>
+                        <td colspan="3"><em>Note: Includes 10% extra for wastage</em></td>
+                    </tr>
                 </tbody>
             </table>
         `;
     }
 }
+        
 function generateBreadsList(inputs) {
     let html = `
     <table class="breads-table">
@@ -723,56 +839,125 @@ function generateBreadsList(inputs) {
         <tbody>
     `;
     
-    // Check for bloomers
-    let hasBloomer = (inputs.white.small > 0 || inputs.white.large > 0 || 
-                      inputs.rye.small > 0 || inputs.rye.large > 0 || 
-                      inputs.black.small > 0 || inputs.wholemeal.large > 0 || 
-                      inputs.granary.small > 0 || inputs.granary.large > 0);
-    
-    if (hasBloomer) {
+    // White Bread Section
+    let hasWhite = (inputs.white.small > 0 || inputs.white.large > 0 || inputs.white.tin > 0);
+    if (hasWhite) {
         html += `<tr style="background-color: #f0f0f0;">
-            <td colspan="2"><strong>Bloomers</strong></td>
+            <td colspan="2"><strong>White Bread</strong></td>
         </tr>`;
         
-        // 1lb Bloomers
-        if (inputs.white.small > 0) html += `<tr><td>Small White Bloomer (1 lb)</td><td>${inputs.white.small}</td></tr>`;
-         if (inputs.white.large > 0) html += `<tr><td>Large White Bloomer (2 lb)</td><td>${inputs.white.large}</td></tr>`;
-        if (inputs.rye.small > 0) html += `<tr><td>Small Rye Bloomer (1 lb)</td><td>${inputs.rye.small}</td></tr>`;
-          if (inputs.rye.large > 0) html += `<tr><td>Large Rye Bloomer (2 lb)</td><td>${inputs.rye.large}</td></tr>`; 
-        if (inputs.black.small > 0) html += `<tr><td>Black Round Small (1 lb)</td><td>${inputs.black.small}</td></tr>`;
-                // 2lb Bloomers
-        if (inputs.wholemeal.large > 0) html += `<tr><td>Wholemeal Bloomer Large (2 lb)</td><td>${inputs.wholemeal.large}</td></tr>`;
-         if (inputs.granary.small > 0) html += `<tr><td>Granary Bloomer Small (1 lb)</td><td>${inputs.granary.small}</td></tr>`;
-        if (inputs.granary.large > 0) html += `<tr><td>Granary Bloomer Large (2 lb)</td><td>${inputs.granary.large}</td></tr>`;
+        // White Bloomers
+        if (inputs.white.small > 0 || inputs.white.large > 0) {
+            html += `<tr><td colspan="2" style="padding-left: 20px;"><em>Bloomers</em></td></tr>`;
+            if (inputs.white.small > 0) html += `<tr><td style="padding-left: 40px;">Small White Bloomer (1 lb)</td><td>${inputs.white.small}</td></tr>`;
+            if (inputs.white.large > 0) html += `<tr><td style="padding-left: 40px;">Large White Bloomer (2 lb)</td><td>${inputs.white.large}</td></tr>`;
+        }
+        
+        // White Tins
+        if (inputs.white.tin > 0) {
+            html += `<tr><td colspan="2" style="padding-left: 20px;"><em>Tins</em></td></tr>`;
+            html += `<tr><td style="padding-left: 40px;">Square White Tin (2 lb)</td><td>${inputs.white.tin}</td></tr>`;
+        }
     }
-    
-    // Check for tins
-    let hasTin = (inputs.white.tin > 0 || inputs.rye.tin > 0 || 
-                  inputs.marble.tin > 0 || inputs.wholemeal.tin > 0 || 
-                  inputs.granary.tin > 0);
-    
-    if (hasTin) {
-        if (hasBloomer) html += `<tr><td colspan="2">&nbsp;</td></tr>`;
+
+    // Rye Bread Section
+    let hasRye = (inputs.rye.small > 0 || inputs.rye.large > 0 || inputs.rye.tin > 0);
+    if (hasRye) {
+        if (hasWhite) html += `<tr><td colspan="2">&nbsp;</td></tr>`;
         
         html += `<tr style="background-color: #f0f0f0;">
-            <td colspan="2"><strong>Tins (2 lb)</strong></td>
+            <td colspan="2"><strong>Rye Bread</strong></td>
         </tr>`;
         
-        if (inputs.white.tin > 0) html += `<tr><td>Sq White Tins</td><td>${inputs.white.tin}</td></tr>`;
-        if (inputs.rye.tin > 0) html += `<tr><td>Sq Rye Tins</td><td>${inputs.rye.tin}</td></tr>`;
-        if (inputs.marble.tin > 0) html += `<tr><td>Sq Marble Rye Tins</td><td>${inputs.marble.tin}</td></tr>`;
-        if (inputs.wholemeal.tin > 0) html += `<tr><td>Sq Wholemeal Tins</td><td>${inputs.wholemeal.tin}</td></tr>`;
-        if (inputs.granary.tin > 0) html += `<tr><td>Sq Granary Tins</td><td>${inputs.granary.tin}</td></tr>`;
+        // Rye Bloomers
+        if (inputs.rye.small > 0 || inputs.rye.large > 0) {
+            html += `<tr><td colspan="2" style="padding-left: 20px;"><em>Bloomers</em></td></tr>`;
+            if (inputs.rye.small > 0) html += `<tr><td style="padding-left: 40px;">Small Rye Bloomer (1 lb)</td><td>${inputs.rye.small}</td></tr>`;
+            if (inputs.rye.large > 0) html += `<tr><td style="padding-left: 40px;">Large Rye Bloomer (2 lb)</td><td>${inputs.rye.large}</td></tr>`;
+        }
+        
+        // Rye Tins
+        if (inputs.rye.tin > 0) {
+            html += `<tr><td colspan="2" style="padding-left: 20px;"><em>Tins</em></td></tr>`;
+            html += `<tr><td style="padding-left: 40px;">Square Rye Tin (2 lb)</td><td>${inputs.rye.tin}</td></tr>`;
+        }
     }
-    
-    // Bulka section - separate display only
+
+    // Marble Rye Section
+    if (inputs.marble.tin > 0) {
+        if (hasWhite || hasRye) html += `<tr><td colspan="2">&nbsp;</td></tr>`;
+        
+        html += `<tr style="background-color: #f0f0f0;">
+            <td colspan="2"><strong>Marble Rye Bread</strong></td>
+        </tr>`;
+        html += `<tr><td colspan="2" style="padding-left: 20px;"><em>Tins</em></td></tr>`;
+        html += `<tr><td style="padding-left: 40px;">Square Marble Rye Tin (2 lb)</td><td>${inputs.marble.tin}</td></tr>`;
+    }
+
+    // Black Round Section
+    if (inputs.black.small > 0) {
+        if (hasWhite || hasRye || inputs.marble.tin > 0) html += `<tr><td colspan="2">&nbsp;</td></tr>`;
+        
+        html += `<tr style="background-color: #f0f0f0;">
+            <td colspan="2"><strong>Black Round Bread</strong></td>
+        </tr>`;
+        html += `<tr><td colspan="2" style="padding-left: 20px;"><em>Bloomers</em></td></tr>`;
+        html += `<tr><td style="padding-left: 40px;">Small Black Round (1 lb)</td><td>${inputs.black.small}</td></tr>`;
+    }
+
+    // Wholemeal Section
+    let hasWholemeal = (inputs.wholemeal.large > 0 || inputs.wholemeal.tin > 0);
+    if (hasWholemeal) {
+        if (hasWhite || hasRye || inputs.marble.tin > 0 || inputs.black.small > 0) html += `<tr><td colspan="2">&nbsp;</td></tr>`;
+        
+        html += `<tr style="background-color: #f0f0f0;">
+            <td colspan="2"><strong>Wholemeal Bread</strong></td>
+        </tr>`;
+        
+        // Wholemeal Bloomers
+        if (inputs.wholemeal.large > 0) {
+            html += `<tr><td colspan="2" style="padding-left: 20px;"><em>Bloomers</em></td></tr>`;
+            html += `<tr><td style="padding-left: 40px;">Large Wholemeal Bloomer (2 lb)</td><td>${inputs.wholemeal.large}</td></tr>`;
+        }
+        
+        // Wholemeal Tins
+        if (inputs.wholemeal.tin > 0) {
+            html += `<tr><td colspan="2" style="padding-left: 20px;"><em>Tins</em></td></tr>`;
+            html += `<tr><td style="padding-left: 40px;">Square Wholemeal Tin (2 lb)</td><td>${inputs.wholemeal.tin}</td></tr>`;
+        }
+    }
+
+    // Granary Section
+    let hasGranary = (inputs.granary.small > 0 || inputs.granary.large > 0 || inputs.granary.tin > 0);
+    if (hasGranary) {
+        if (hasWhite || hasRye || inputs.marble.tin > 0 || inputs.black.small > 0 || hasWholemeal) html += `<tr><td colspan="2">&nbsp;</td></tr>`;
+        
+        html += `<tr style="background-color: #f0f0f0;">
+            <td colspan="2"><strong>Granary Bread</strong></td>
+        </tr>`;
+        
+        // Granary Bloomers
+        if (inputs.granary.small > 0 || inputs.granary.large > 0) {
+            html += `<tr><td colspan="2" style="padding-left: 20px;"><em>Bloomers</em></td></tr>`;
+            if (inputs.granary.small > 0) html += `<tr><td style="padding-left: 40px;">Small Granary Bloomer (1 lb)</td><td>${inputs.granary.small}</td></tr>`;
+            if (inputs.granary.large > 0) html += `<tr><td style="padding-left: 40px;">Large Granary Bloomer (2 lb)</td><td>${inputs.granary.large}</td></tr>`;
+        }
+        
+        // Granary Tins
+        if (inputs.granary.tin > 0) {
+            html += `<tr><td colspan="2" style="padding-left: 20px;"><em>Tins</em></td></tr>`;
+            html += `<tr><td style="padding-left: 40px;">Square Granary Tin (2 lb)</td><td>${inputs.granary.tin}</td></tr>`;
+        }
+    }
+
+    // Bulka Section
     if (inputs.bulka.qty > 0) {
-        if (hasBloomer || hasTin) html += `<tr><td colspan="2">&nbsp;</td></tr>`;
+        if (hasWhite || hasRye || inputs.marble.tin > 0 || inputs.black.small > 0 || hasWholemeal || hasGranary) html += `<tr><td colspan="2">&nbsp;</td></tr>`;
         
         html += `<tr style="background-color: #f0f0f0;">
-            <td colspan="2"><strong>Other</strong></td>
+            <td colspan="2"><strong>Bulka</strong></td>
         </tr>`;
-        html += `<tr><td>Bulka</td><td>${inputs.bulka.qty}</td></tr>`;
+        html += `<tr><td style="padding-left: 40px;">Bulka</td><td>${inputs.bulka.qty}</td></tr>`;
     }
 
     html += '</tbody></table>';
@@ -840,17 +1025,35 @@ function calculateRecipe() {
 }
 // Event listeners
 document.addEventListener('DOMContentLoaded', function() {
-    const inputs = document.querySelectorAll('input[type="number"]');
+    // Initial weather and recipe calculation
+    calculateRecipe();
     
+    // Set up weather refresh interval (every 15 minutes)
+    setInterval(calculateRecipe, 15 * 60 * 1000);
+    
+    // Input validation and calculation trigger
+    const inputs = document.querySelectorAll('input[type="number"]');
     inputs.forEach(input => {
         input.addEventListener('input', function() {
+            // Remove non-numeric characters
             this.value = this.value.replace(/[^0-9]/g, '');
+            
+            // Remove leading zeros if length > 1
             if (this.value.length > 1) {
                 this.value = this.value.replace(/^0+/, '');
             }
+            
+            // Trigger recipe calculation
             calculateRecipe();
         });
     });
+});
+
+// Clean up interval when page is unloaded
+window.addEventListener('beforeunload', function() {
+    if (weatherRefreshInterval) {
+        clearInterval(weatherRefreshInterval);
+    }
 });
 
 // Clear form function
@@ -862,6 +1065,90 @@ function clearForm() {
     setTimeout(() => {
         outputSection.innerHTML = '';
     }, 300);
+}
+        // Weather and Date Functions
+async function getWeatherData() {
+    try {
+        const position = await getCurrentPosition();
+        const { latitude, longitude } = position.coords;
+        
+        const response = await fetch(
+            `https://wttr.in/${latitude},${longitude}?format=j1`
+        );
+        
+        if (!response.ok) throw new Error('Weather data fetch failed');
+        
+        const data = await response.json();
+        return {
+            temperature: data.current_condition[0].temp_C,
+            humidity: data.current_condition[0].humidity,
+            condition: data.current_condition[0].weatherDesc[0].value,
+            location: data.nearest_area[0].areaName[0].value
+        };
+    } catch (error) {
+        console.error('Error fetching weather:', error);
+        return {
+            temperature: '--',
+            humidity: '--',
+            condition: 'Unable to fetch weather',
+            location: '--'
+        };
+    }
+}
+
+function getCurrentPosition() {
+    return new Promise((resolve, reject) => {
+        if (!navigator.geolocation) {
+            reject(new Error('Geolocation is not supported'));
+            return;
+        }
+        
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        });
+    });
+}
+
+function formatDate(date = new Date()) {
+    return date.toLocaleDateString('en-GB', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
+
+function generateInfoSection(weatherData) {
+    return `
+    <table class="info-table">
+        <tbody>
+            <tr>
+                <td><strong>Production Date & Time:</strong></td>
+                <td>${formatDate()}</td>
+            </tr>
+            <tr>
+                <td><strong>Location:</strong></td>
+                <td>${weatherData.location}</td>
+            </tr>
+            <tr>
+                <td><strong>Temperature:</strong></td>
+                <td>${weatherData.temperature}°C</td>
+            </tr>
+            <tr>
+                <td><strong>Humidity:</strong></td>
+                <td>${weatherData.humidity}%</td>
+            </tr>
+            <tr>
+                <td><strong>Weather:</strong></td>
+                <td>${weatherData.condition}</td>
+            </tr>
+        </tbody>
+    </table>
+    `;
 }
 </script>
 </body>
