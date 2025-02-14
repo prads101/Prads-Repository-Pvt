@@ -302,7 +302,6 @@ button {
     }
 }
 
-/* Print Styles */
 @media print {
     @page {
         size: A4;
@@ -322,6 +321,35 @@ button {
         margin-bottom: 5mm;
     }
 
+    /* Info table specific styles */
+    .info-section {
+        grid-column: 1 / -1;  /* Make info section span full width */
+        margin-bottom: 5mm;
+    }
+
+    .info-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 5mm;
+        page-break-inside: avoid;
+        font-size: 13pt !important;
+    }
+
+    .info-table td {
+        padding: 1mm;
+        border-top: 0.5pt solid black;
+        border-bottom: 0.5pt solid black;
+        border-left: none !important;
+        border-right: none !important;
+    }
+
+    .info-table td:first-child {
+        width: 150px;
+        background-color: #f0f0f0 !important;
+        color: black !important;
+        font-weight: bold;
+    }
+
     /* Grid layout with padding around each table */
     .output-section {
         display: grid;
@@ -330,6 +358,8 @@ button {
         padding: 5mm;  /* Adds padding around the grid area */
         box-sizing: border-box;  /* Ensures padding does not overflow */
         width: 100%;
+        opacity: 1 !important;
+        transform: none !important;
     }
 
     /* Table styling with only horizontal lines */
@@ -376,6 +406,12 @@ button {
     /* Hide non-print content */
     .no-print {
         display: none !important;
+    }
+
+    /* Additional print optimizations */
+    .recipe-tables,
+    .breads-list {
+        page-break-inside: avoid;
     }
 }
 </style>
@@ -942,7 +978,7 @@ function generateBreadsList(inputs) {
     return html;
 }
 
-function calculateRecipe() {
+async function calculateRecipe() {
     const inputs = {
         white: {
             small: getInputValue('white-small'),
@@ -974,29 +1010,35 @@ function calculateRecipe() {
         }
     };
 
+    const weatherData = await getWeatherData();
+
     const whiteDoughWeight = calculateWhiteDoughWeight(inputs);
     const wholemealDoughWeight = calculateWholemealDoughWeight(inputs);
     const granaryDoughWeight = calculateGranaryDoughWeight(inputs);
 
     // Get references to containers
     const outputSection = document.getElementById('output-section');
+    
+    // Create and populate the sections
+    const infoSection = document.createElement('div');
+    infoSection.className = 'info-section';
+    infoSection.innerHTML = generateInfoSection(weatherData);
+    
     const recipeTables = document.createElement('div');
     recipeTables.className = 'recipe-tables';
-    const breadsList = document.createElement('div');
-    breadsList.className = 'breads-list';
-
-    // Generate recipes
     recipeTables.innerHTML = `
         ${generateRecipeTable('White Bread Recipe', calculateWhiteRecipe(whiteDoughWeight))}
         ${wholemealDoughWeight > 0 ? generateRecipeTable('Wholemeal Bread Recipe', calculateWholemealRecipe(wholemealDoughWeight)) : ''}
         ${granaryDoughWeight > 0 ? generateRecipeTable('Granary Bread Recipe', calculateGranaryRecipe(granaryDoughWeight)) : ''}
     `;
 
-    // Generate breads list
+    const breadsList = document.createElement('div');
+    breadsList.className = 'breads-list';
     breadsList.innerHTML = generateBreadsList(inputs);
 
     // Clear and update output section
     outputSection.innerHTML = '';
+    outputSection.appendChild(infoSection);
     outputSection.appendChild(recipeTables);
     outputSection.appendChild(breadsList);
     outputSection.classList.add('visible');
