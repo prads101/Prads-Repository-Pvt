@@ -37,13 +37,6 @@ body {
     color: var(--text);
     padding: 20px;
 }
-        /* Print Header */
-.print-header {
-    text-align: center;
-    font-size: 14pt;
-    font-weight: bold;
-    margin-bottom: 10px;
-    display: none; /* Hidden by default, shown only when printed*/
 
 /* Layout and Container Styles */
 .container {
@@ -271,44 +264,8 @@ button {
         width: 100%;
     }
 }
-        .info-table {
-    width: 100%;
-    margin-bottom: 2rem;
-    border-collapse: collapse;
-    background: var(--surface);
-    border-radius: var(--radius);
-    overflow: hidden;
-    box-shadow: var(--shadow);
-}
 
-.info-table td {
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--border);
-}
-
-.info-table td:first-child {
-    width: 150px;
-    background-color: var(--header-background);
-    color: white;
-}
-
-@media print {
-    .info-table {
-        margin-bottom: 1rem;
-        box-shadow: none;
-    }
-
-    .info-table td {
-        padding: 0.25rem 0.5rem;
-        font-size: 12pt;
-    }
-
-    .info-table td:first-child {
-        background-color: #f0f0f0 !important;
-        color: black !important;
-    }
-}
-
+/* Print Styles */
 @media print {
     @page {
         size: A4;
@@ -316,53 +273,16 @@ button {
     }
 
     body {
-        font-size: 12pt !important;
+        font-size: 14pt !important;
         margin: 0 !important;
         padding: 0 !important;
         color: black !important;
     }
-    .print-header {
-        display: block;
-        margin-bottom: 15mm;
-    }
-
-    .no-print {
-        display: none !important;
-    }
 
     h1 {
-        font-size: 14pt !important;
+        font-size: 13pt !important;
         text-align: center;
         margin-bottom: 5mm;
-    }
-
-    /* Info table specific styles */
-    .info-section {
-        grid-column: 1 / -1;  /* Make info section span full width */
-        margin-bottom: 5mm;
-    }
-
-    .info-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 5mm;
-        page-break-inside: avoid;
-        font-size: 13pt !important;
-    }
-
-    .info-table td {
-        padding: 1mm;
-        border-top: 0.5pt solid black;
-        border-bottom: 0.5pt solid black;
-        border-left: none !important;
-        border-right: none !important;
-    }
-
-    .info-table td:first-child {
-        width: 150px;
-        background-color: #f0f0f0 !important;
-        color: black !important;
-        font-weight: bold;
     }
 
     /* Grid layout with padding around each table */
@@ -373,8 +293,6 @@ button {
         padding: 5mm;  /* Adds padding around the grid area */
         box-sizing: border-box;  /* Ensures padding does not overflow */
         width: 100%;
-        opacity: 1 !important;
-        transform: none !important;
     }
 
     /* Table styling with only horizontal lines */
@@ -422,52 +340,14 @@ button {
     .no-print {
         display: none !important;
     }
-
-    /* Additional print optimizations */
-    .recipe-tables,
-    .breads-list {
-        page-break-inside: avoid;
-    }
 }
-      .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #064e77;
-    color: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-}
-
-.header .weather {
-    text-align: left;
-}
-
-.header .date-location {
-    text-align: right;
-}
-
 </style>
 </head>
 <body>
     <div class="no-print">
         <div class="container">
-            <div class="header">
-    <div class="weather">
-        <strong>Weather:</strong> <span id="weather-condition">Fetching...</span> | 
-        <strong>Temp:</strong> <span id="weather-temp">--</span>°C | 
-        <strong>Humidity:</strong> <span id="weather-humidity">--</span>%
-    </div>
-    <div class="date-location">
-        <strong>Date:</strong> <span id="current-date">Fetching...</span> | 
-        <strong>Location:</strong> London, UK
-    </div>
-</div>
-
-<h1>Bread Production Calculator</h1>
-
+            <h1>Bread Production Calculator</h1>
+            
             <!-- Input Section -->
             <div class="input-section">
                 <!-- White Bread -->
@@ -577,24 +457,6 @@ button {
         <div class="breads-list"></div>
     </div>
 </div>
-    <!-- Print Header -->
-    <div class="print-header">
-        <span id="print-date">Fetching Date...</span> | 
-        <span id="print-location">London, UK</span> | 
-        <span id="print-weather">Fetching Weather...</span>
-    </div>
-
-    <div class="no-print">
-        <!-- Your existing input section HTML -->
-    </div>
-
-    <!-- Output Section -->
-    <div class="output-wrapper">
-        <div id="output-section" class="output-section">
-            <div class="recipe-tables"></div>
-            <div class="breads-list"></div>
-        </div>
-    </div>
     <script>
 // Utility functions
 function getInputValue(id) {
@@ -623,97 +485,31 @@ function formatBags(grams) {
     if (bags < 0.1) return '';
     return `(${bags.toFixed(1)} bag${bags > 1.1 ? 's' : ''})`;
 }
-        // Update print header
-function updatePrintHeader() {
-    document.getElementById('print-date').textContent = new Date().toLocaleString('en-GB', {
-        weekday: 'long', 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric'
-    });
 
-    fetchWeather().then(weather => {
-        document.getElementById('print-weather').textContent = 
-            `${weather.temperature}°C, ${weather.condition}`;
-    });
-}
-
-async function fetchWeather() {
-    try {
-        const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=51.51&longitude=-0.13&current=temperature_2m,weather_code');
-        if (!response.ok) throw new Error('Weather fetch failed');
-        const data = await response.json();
-        
-        return {
-            temperature: Math.round(data.current.temperature_2m),
-            condition: getWeatherCondition(data.current.weather_code)
-        };
-    } catch (error) {
-        return { temperature: '--', condition: 'Unavailable' };
-    }
-}
-
-function getWeatherCondition(code) {
-    const weatherCodes = {
-        0: 'Clear sky', 1: 'Mainly clear', 2: 'Partly cloudy', 3: 'Overcast',
-        45: 'Foggy', 48: 'Rime fog', 51: 'Light drizzle', 53: 'Moderate drizzle',
-        55: 'Dense drizzle', 61: 'Slight rain', 63: 'Moderate rain', 65: 'Heavy rain'
-    };
-    return weatherCodes[code] || 'Unknown';
-}
-// Modify the start of your existing calculateRecipe function
-async function calculateRecipe() {
-    const weatherData = await getWeatherData();
-    
-    const inputs = {
-        // ... your existing input gathering code ...
-    };
-
-    // Create info section with weather data
-    const infoSection = document.createElement('div');
-    infoSection.className = 'info-section';
-    infoSection.innerHTML = generateInfoSection(weatherData);
-    
-    // Get references to containers
-    const outputSection = document.getElementById('output-section');
-    outputSection.innerHTML = '';
-    outputSection.appendChild(infoSection);
-    
-    // Rest of your existing calculateRecipe code...
-}
-// Calculate weights with 10% extra
+// Calculate weights
 function calculateWhiteDoughWeight(inputs) {
-    const baseWeight = (inputs.white.small * 454) + 
+    return (inputs.white.small * 454) + 
            (inputs.white.large * 907) + 
            (inputs.white.tin * 907) +
            (inputs.rye.small * 454) +
            (inputs.rye.large * 907) +
            (inputs.rye.tin * 907) +
            (inputs.black.small * 454) +
-           (inputs.marble.tin * 907);
-    
-    // Add 10% extra
-    return baseWeight * 1.1;
+           (inputs.marble.tin * 907);    // Removed bulka and fixed syntax
 }
 
 function calculateWholemealDoughWeight(inputs) {
-    const baseWeight = (inputs.wholemeal.large * 907) + 
+    return (inputs.wholemeal.large * 907) + 
            (inputs.wholemeal.tin * 907);
-           
-    // Add 10% extra
-    return baseWeight * 1.1;
 }
 
 function calculateGranaryDoughWeight(inputs) {
-    const baseWeight = (inputs.granary.small * 454) + 
+    return (inputs.granary.small * 454) + 
            (inputs.granary.large * 907) + 
            (inputs.granary.tin * 907);
-           
-    // Add 10% extra
-    return baseWeight * 1.1;
 }
 
-// Recipe calculations with 10% extra and modified granary recipe
+// Recipe calculations with separate oil and S500
 function calculateWhiteRecipe(totalDoughWeight) {
     const scaleFactor = totalDoughWeight / 1600;
     const flour = 1000 * scaleFactor;
@@ -750,8 +546,8 @@ function calculateWholemealRecipe(totalDoughWeight) {
     const water = 600 * scaleFactor;
     const salt = 20 * scaleFactor;
     const yeast = 25 * scaleFactor;
-    const oil = 25 * scaleFactor;     
-    const s500 = 7.5 * scaleFactor;   
+    const oil = 25 * scaleFactor;     // 2.5% of flour weight
+    const s500 = 7.5 * scaleFactor;   // 0.75% of flour weight
     
     return {
         heygate: heygateFlour,
@@ -780,33 +576,38 @@ function calculateGranaryRecipe(totalDoughWeight) {
     const granaryFlour = 500 * scaleFactor;
     const totalFlour = heygateFlour + granaryFlour;
     const water = 600 * scaleFactor;
-    const yeast = 25 * scaleFactor;   // Keep yeast
-    const s500 = 7.5 * scaleFactor;   // Keep S500
-    
-    // Note: Salt and Oil removed as per requirements
+    const salt = 20 * scaleFactor;
+    const yeast = 25 * scaleFactor;
+    const oil = 25 * scaleFactor;     // 2.5% of flour weight
+    const s500 = 7.5 * scaleFactor;   // 0.75% of flour weight
     
     return {
         heygate: heygateFlour,
         granary: granaryFlour,
         water,
+        salt,
         yeast,
+        oil,
         s500,
         total: totalDoughWeight,
         percentages: {
             heygate: (heygateFlour / totalFlour) * 100,
             granary: (granaryFlour / totalFlour) * 100,
             water: (water / totalFlour) * 100,
+            salt: (salt / totalFlour) * 100,
             yeast: (yeast / totalFlour) * 100,
+            oil: (oil / totalFlour) * 100,
             s500: (s500 / totalFlour) * 100
         }
     };
 }
+
 function generateRecipeTable(title, recipe) {
     if (recipe.total === 0) return '';
     
     let rows = '';
     if ('flour' in recipe) {
-        // White bread recipe
+        // White bread recipe - show bags in header
         const bagInfo = formatBags(recipe.flour);
         rows += `
             <tr>
@@ -854,59 +655,11 @@ function generateRecipeTable(title, recipe) {
                         <td><strong>${formatWeight(recipe.total)}</strong></td>
                         <td>-</td>
                     </tr>
-                   
-                </tbody>
-            </table>
-        `;
-    } else if (title.includes('Granary')) {
-        // Granary bread recipe - without salt and oil
-        rows += `
-            <tr>
-                <td>Heygate Flour</td>
-                <td>${formatWeight(recipe.heygate)}</td>
-                <td>${formatPercentage(recipe.percentages.heygate)}</td>
-            </tr>
-            <tr>
-                <td>Granary Flour</td>
-                <td>${formatWeight(recipe.granary)}</td>
-                <td>${formatPercentage(recipe.percentages.granary)}</td>
-            </tr>
-            <tr>
-                <td>Water</td>
-                <td>${formatVolume(recipe.water)}</td>
-                <td>${formatPercentage(recipe.percentages.water)}</td>
-            </tr>
-        `;
-        
-        return `
-            <table class="recipe-table">
-                <thead>
-                    <tr>
-                        <th colspan="3">${title}</th>
-                    </tr>
-                </thead>
-                <tbody>${rows}
-                    <tr>
-                        <td>Yeast (Fresh)</td>
-                        <td>${formatWeight(recipe.yeast)}</td>
-                        <td>${formatPercentage(recipe.percentages.yeast)}</td>
-                    </tr>
-                    <tr>
-                        <td>S500 (Improver)</td>
-                        <td>${formatWeight(recipe.s500)}</td>
-                        <td>${formatPercentage(recipe.percentages.s500)}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Total Dough Weight</strong></td>
-                        <td><strong>${formatWeight(recipe.total)}</strong></td>
-                        <td>-</td>
-                    </tr>
-                   
                 </tbody>
             </table>
         `;
     } else {
-        // Wholemeal bread recipe
+        // Wholemeal/Granary bread recipes - no bags info
         rows += `
             <tr>
                 <td>Heygate Flour</td>
@@ -914,426 +667,10 @@ function generateRecipeTable(title, recipe) {
                 <td>${formatPercentage(recipe.percentages.heygate)}</td>
             </tr>
             <tr>
-                <td>Wholemeal Flour</td>
-                <td>${formatWeight(recipe.wholemeal)}</td>
-                <td>${formatPercentage(recipe.percentages.wholemeal)}</td>
+                <td>${title.includes('Wholemeal') ? 'Wholemeal' : 'Granary'} Flour</td>
+                <td>${formatWeight(recipe.wholemeal || recipe.granary)}</td>
+                <td>${formatPercentage(recipe.percentages.wholemeal || recipe.percentages.granary)}</td>
             </tr>
             <tr>
                 <td>Water</td>
-                <td>${formatVolume(recipe.water)}</td>
-                <td>${formatPercentage(recipe.percentages.water)}</td>
-            </tr>
-        `;
-        
-        return `
-            <table class="recipe-table">
-                <thead>
-                    <tr>
-                        <th colspan="3">${title}</th>
-                    </tr>
-                </thead>
-                <tbody>${rows}
-                    <tr>
-                        <td>Salt</td>
-                        <td>${formatWeight(recipe.salt)}</td>
-                        <td>${formatPercentage(recipe.percentages.salt)}</td>
-                    </tr>
-                    <tr>
-                        <td>Yeast (Fresh)</td>
-                        <td>${formatWeight(recipe.yeast)}</td>
-                        <td>${formatPercentage(recipe.percentages.yeast)}</td>
-                    </tr>
-                    <tr>
-                        <td>Oil</td>
-                        <td>${formatWeight(recipe.oil)}</td>
-                        <td>${formatPercentage(recipe.percentages.oil)}</td>
-                    </tr>
-                    <tr>
-                        <td>S500 (Improver)</td>
-                        <td>${formatWeight(recipe.s500)}</td>
-                        <td>${formatPercentage(recipe.percentages.s500)}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Total Dough Weight</strong></td>
-                        <td><strong>${formatWeight(recipe.total)}</strong></td>
-                        <td>-</td>
-                    </tr>
-                   
-                </tbody>
-            </table>
-        `;
-    }
-}
-        
-function generateBreadsList(inputs) {
-    let html = `
-    <table class="breads-table">
-        <thead><tr><th colspan="2">Breads to be Made</th></tr></thead>
-        <tbody>
-    `;
-    
-    // White Bread Section
-    let hasWhite = (inputs.white.small > 0 || inputs.white.large > 0 || inputs.white.tin > 0);
-    if (hasWhite) {
-        html += `<tr style="background-color: #f0f0f0;">
-            <td colspan="2"><strong>White Bread</strong></td>
-        </tr>`;
-        
-        // White Bloomers
-        if (inputs.white.small > 0 || inputs.white.large > 0) {
-            if (inputs.white.small > 0) html += `<tr><td style="padding-left: 40px;">Small White Bloomer (1 lb)</td><td>${inputs.white.small}</td></tr>`;
-            if (inputs.white.large > 0) html += `<tr><td style="padding-left: 40px;">Large White Bloomer (2 lb)</td><td>${inputs.white.large}</td></tr>`;
-        }
-        
-        // White Tins
-        if (inputs.white.tin > 0) {
-            html += `<tr><td style="padding-left: 40px;"><strong>Sq White Tin (2 lb)</strong)</td><td>${inputs.white.tin}</td></tr>`;
-        }
-    }
-
-    // Rye Bread Section
-    let hasRye = (inputs.rye.small > 0 || inputs.rye.large > 0 || inputs.rye.tin > 0);
-    if (hasRye) {
-       
-        html += `<tr style="background-color: #f0f0f0;">
-            <td colspan="2"><strong>Rye Bread</strong></td>
-        </tr>`;
-        
-        // Rye Bloomers
-        if (inputs.rye.small > 0 || inputs.rye.large > 0) {
-                       if (inputs.rye.small > 0) html += `<tr><td style="padding-left: 40px;">Small Rye Bloomer (1 lb)</td><td>${inputs.rye.small}</td></tr>`;
-            if (inputs.rye.large > 0) html += `<tr><td style="padding-left: 40px;">Large Rye Bloomer (2 lb)</td><td>${inputs.rye.large}</td></tr>`;
-        }
-        
-        // Rye Tins
-        if (inputs.rye.tin > 0) {
-            html += `<tr><td style="padding-left: 40px;"><strong>Sq Rye Tin (2 lb)</strong></td><td>${inputs.rye.tin}</td></tr>`;
-        }
-    }
-
-    // Marble Rye Section
-    if (inputs.marble.tin > 0) {
-              
-        html += `<tr style="background-color: #f0f0f0;">
-            <td colspan="2"><strong>Marble Rye Bread</strong></td>
-        </tr>`;
-             html += `<tr><td style="padding-left: 40px;"><strong>Sq Marble Rye Tin (2 lb)</strong></td><td>${inputs.marble.tin}</td></tr>`;
-    }
-
-    // Black Round Section
-    if (inputs.black.small > 0) {
-              
-        html += `<tr style="background-color: #f0f0f0;">
-            <td colspan="2"><strong>Black Round Bread</strong></td>
-        </tr>`;
-        html += `<tr><td style="padding-left: 40px;">Black Round Small (1 lb)</td><td>${inputs.black.small}</td></tr>`;
-    }
-
-    // Wholemeal Section
-    let hasWholemeal = (inputs.wholemeal.large > 0 || inputs.wholemeal.tin > 0);
-    if (hasWholemeal) {
-       
-        html += `<tr style="background-color: #f0f0f0;">
-            <td colspan="2"><strong>Wholemeal Bread</strong></td>
-        </tr>`;
-        
-        // Wholemeal Bloomers
-        if (inputs.wholemeal.large > 0) {
-            html += `<tr><td style="padding-left: 40px;">Large Wholemeal Bloomer (2 lb)</td><td>${inputs.wholemeal.large}</td></tr>`;
-        }
-        
-        // Wholemeal Tins
-        if (inputs.wholemeal.tin > 0) {
-            html += `<tr><td style="padding-left: 40px;"><strong>Sq Wholemeal Tin (2 lb)</strong></td><td>${inputs.wholemeal.tin}</td></tr>`;
-        }
-    }
-
-    // Granary Section
-    let hasGranary = (inputs.granary.small > 0 || inputs.granary.large > 0 || inputs.granary.tin > 0);
-    if (hasGranary) {
-        
-        html += `<tr style="background-color: #f0f0f0;">
-            <td colspan="2"><strong>Granary Bread</strong></td>
-        </tr>`;
-        
-        // Granary Bloomers
-        if (inputs.granary.small > 0 || inputs.granary.large > 0) {
-            if (inputs.granary.small > 0) html += `<tr><td style="padding-left: 40px;">Small Granary Bloomer (1 lb)</td><td>${inputs.granary.small}</td></tr>`;
-            if (inputs.granary.large > 0) html += `<tr><td style="padding-left: 40px;">Large Granary Bloomer (2 lb)</td><td>${inputs.granary.large}</td></tr>`;
-        }
-        
-        // Granary Tins
-        if (inputs.granary.tin > 0) {
-            html += `<tr><td style="padding-left: 40px;"><strong>Sq Granary Tin (2 lb)<strong></td><td>${inputs.granary.tin}</td></tr>`;
-        }
-    }
-
-    // Bulka Section
-    if (inputs.bulka.qty > 0) {
-        
-        html += `<tr style="background-color: #f0f0f0;">
-            <td colspan="2"><strong>Bulka</strong></td>
-        </tr>`;
-        html += `<tr><td style="padding-left: 40px;">Bulka</td><td>${inputs.bulka.qty}</td></tr>`;
-    }
-
-    html += '</tbody></table>';
-    return html;
-}
-
-async function calculateRecipe() {
-    const inputs = {
-        white: {
-            small: getInputValue('white-small'),
-            large: getInputValue('white-large'),
-            tin: getInputValue('white-tin')
-        },
-        rye: {
-            small: getInputValue('rye-small'),
-            large: getInputValue('rye-large'),
-            tin: getInputValue('rye-tin')
-        },
-        black: {
-            small: getInputValue('black-small')
-        },
-        marble: {
-            tin: getInputValue('marble-tin')
-        },
-        bulka: {
-            qty: getInputValue('bulka-qty')
-        },
-        wholemeal: {
-            large: getInputValue('wholemeal-large'),
-            tin: getInputValue('wholemeal-tin')
-        },
-        granary: {
-            small: getInputValue('granary-small'),
-            large: getInputValue('granary-large'),
-            tin: getInputValue('granary-tin')
-        }
-    };
-
-    const weatherData = await getWeatherData();
-
-    const whiteDoughWeight = calculateWhiteDoughWeight(inputs);
-    const wholemealDoughWeight = calculateWholemealDoughWeight(inputs);
-    const granaryDoughWeight = calculateGranaryDoughWeight(inputs);
-
-    // Get references to containers
-    const outputSection = document.getElementById('output-section');
-    
-    // Create and populate the sections
-    const infoSection = document.createElement('div');
-    infoSection.className = 'info-section';
-    infoSection.innerHTML = generateInfoSection(weatherData);
-    
-    const recipeTables = document.createElement('div');
-    recipeTables.className = 'recipe-tables';
-    recipeTables.innerHTML = `
-        ${generateRecipeTable('White Bread Recipe', calculateWhiteRecipe(whiteDoughWeight))}
-        ${wholemealDoughWeight > 0 ? generateRecipeTable('Wholemeal Bread Recipe', calculateWholemealRecipe(wholemealDoughWeight)) : ''}
-        ${granaryDoughWeight > 0 ? generateRecipeTable('Granary Bread Recipe', calculateGranaryRecipe(granaryDoughWeight)) : ''}
-    `;
-
-    const breadsList = document.createElement('div');
-    breadsList.className = 'breads-list';
-    breadsList.innerHTML = generateBreadsList(inputs);
-
-    // Clear and update output section
-    outputSection.innerHTML = '';
-    outputSection.appendChild(infoSection);
-    outputSection.appendChild(recipeTables);
-    outputSection.appendChild(breadsList);
-    outputSection.classList.add('visible');
-}
-// Event listeners
-document.addEventListener('DOMContentLoaded', function() {
-    // Initial weather and recipe calculation
-    calculateRecipe();
-    
-    // Set up weather refresh interval (every 15 minutes)
-    setInterval(calculateRecipe, 15 * 60 * 1000);
-    
-    // Input validation and calculation trigger
-    const inputs = document.querySelectorAll('input[type="number"]');
-    inputs.forEach(input => {
-        input.addEventListener('input', function() {
-            // Remove non-numeric characters
-            this.value = this.value.replace(/[^0-9]/g, '');
-            
-            // Remove leading zeros if length > 1
-            if (this.value.length > 1) {
-                this.value = this.value.replace(/^0+/, '');
-            }
-            
-            // Trigger recipe calculation
-            calculateRecipe();
-        });
-    });
-});
-
-// Clean up interval when page is unloaded
-window.addEventListener('beforeunload', function() {
-    if (weatherRefreshInterval) {
-        clearInterval(weatherRefreshInterval);
-    }
-});
-
-// Clear form function
-function clearForm() {
-    const inputs = document.querySelectorAll('input[type="number"]');
-    inputs.forEach(input => input.value = '');
-    const outputSection = document.getElementById('output-section');
-    outputSection.classList.remove('visible');
-    setTimeout(() => {
-        outputSection.innerHTML = '';
-    }, 300);
-}
-        // Weather and Date Functions
-// Weather and Date Functions
-async function getWeatherData() {
-    try {
-        // Using OpenMeteo API which is free and doesn't require API key
-        const response = await fetch(
-            'https://api.open-meteo.com/v1/forecast?latitude=51.51&longitude=-0.13&current=temperature_2m,relative_humidity_2m,weather_code'
-        );
-        
-        if (!response.ok) throw new Error('Weather data fetch failed');
-        
-        const data = await response.json();
-        
-        // Convert weather code to condition text
-        const weatherCode = data.current.weather_code;
-        const condition = getWeatherCondition(weatherCode);
-
-        return {
-            temperature: Math.round(data.current.temperature_2m),
-            humidity: data.current.relative_humidity_2m,
-            condition: condition,
-            location: 'London, UK'  // Default location
-        };
-    } catch (error) {
-        console.error('Error fetching weather:', error);
-        return {
-            temperature: '--',
-            humidity: '--',
-            condition: 'Unable to fetch weather',
-            location: '--'
-        };
-    }
-}
-
-function getWeatherCondition(code) {
-    const weatherCodes = {
-        0: 'Clear sky',
-        1: 'Mainly clear',
-        2: 'Partly cloudy',
-        3: 'Overcast',
-        45: 'Foggy',
-        48: 'Depositing rime fog',
-        51: 'Light drizzle',
-        53: 'Moderate drizzle',
-        55: 'Dense drizzle',
-        61: 'Slight rain',
-        63: 'Moderate rain',
-        65: 'Heavy rain',
-        71: 'Slight snow',
-        73: 'Moderate snow',
-        75: 'Heavy snow',
-        77: 'Snow grains',
-        80: 'Slight rain showers',
-        81: 'Moderate rain showers',
-        82: 'Violent rain showers',
-        85: 'Slight snow showers',
-        86: 'Heavy snow showers',
-        95: 'Thunderstorm',
-        96: 'Thunderstorm with slight hail',
-        99: 'Thunderstorm with heavy hail'
-    };
-    return weatherCodes[code] || 'Unknown';
-}
-
-function formatDate(date = new Date()) {
-    return date.toLocaleDateString('en-GB', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
-}
-
-function generateInfoSection(weatherData) {
-    return `
-    <table class="info-table">
-        <tbody>
-            <tr>
-                <td><strong>Production Date & Time:</strong></td>
-                <td>${formatDate()}</td>
-            </tr>
-            <tr>
-                <td><strong>Location:</strong></td>
-                <td>${weatherData.location}</td>
-            </tr>
-            <tr>
-                <td><strong>Temperature:</strong></td>
-                <td>${weatherData.temperature}°C</td>
-            </tr>
-            <tr>
-                <td><strong>Humidity:</strong></td>
-                <td>${weatherData.humidity}%</td>
-            </tr>
-            <tr>
-                <td><strong>Weather:</strong></td>
-                <td>${weatherData.condition}</td>
-            </tr>
-        </tbody>
-    </table>
-    `;
-}
-        // Update Date and Time
-function updateDateTime() {
-    document.getElementById('current-date').textContent = new Date().toLocaleString('en-GB', {
-        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
-    });
-}
-
-// Fetch Weather Data
-async function fetchWeather() {
-    try {
-        const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=51.51&longitude=-0.13&current=temperature_2m,relative_humidity_2m,weather_code');
-        if (!response.ok) throw new Error('Weather fetch failed');
-        const data = await response.json();
-        
-        document.getElementById('weather-temp').textContent = Math.round(data.current.temperature_2m);
-        document.getElementById('weather-humidity').textContent = data.current.relative_humidity_2m;
-        document.getElementById('weather-condition').textContent = getWeatherCondition(data.current.weather_code);
-    } catch (error) {
-        document.getElementById('weather-condition').textContent = 'Unavailable';
-    }
-}
-
-// Convert Weather Codes to Text
-function getWeatherCondition(code) {
-    const weatherCodes = {
-        0: 'Clear sky', 1: 'Mainly clear', 2: 'Partly cloudy', 3: 'Overcast',
-        45: 'Foggy', 48: 'Depositing rime fog', 51: 'Light drizzle', 53: 'Moderate drizzle',
-        55: 'Dense drizzle', 61: 'Slight rain', 63: 'Moderate rain', 65: 'Heavy rain',
-        71: 'Slight snow', 73: 'Moderate snow', 75: 'Heavy snow', 80: 'Rain showers',
-        81: 'Moderate rain showers', 82: 'Violent rain showers', 85: 'Snow showers',
-        86: 'Heavy snow showers', 95: 'Thunderstorm', 96: 'Thunderstorm with slight hail',
-        99: 'Thunderstorm with heavy hail'
-    };
-    return weatherCodes[code] || 'Unknown';
-}
-
-// Initialize on Page Load
-document.addEventListener('DOMContentLoaded', () => {
-    updateDateTime();
-    fetchWeather();
-});
-
-</script>
-</body>
-</html>
+                <td>${format
