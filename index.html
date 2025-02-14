@@ -414,13 +414,45 @@ button {
         page-break-inside: avoid;
     }
 }
+      .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #064e77;
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+.header .weather {
+    text-align: left;
+}
+
+.header .date-location {
+    text-align: right;
+}
+
 </style>
 </head>
 <body>
     <div class="no-print">
         <div class="container">
-            <h1>Bread Production Calculator</h1>
-            
+            <div class="header">
+    <div class="weather">
+        <strong>Weather:</strong> <span id="weather-condition">Fetching...</span> | 
+        <strong>Temp:</strong> <span id="weather-temp">--</span>°C | 
+        <strong>Humidity:</strong> <span id="weather-humidity">--</span>%
+    </div>
+    <div class="date-location">
+        <strong>Date:</strong> <span id="current-date">Fetching...</span> | 
+        <strong>Location:</strong> London, UK
+    </div>
+</div>
+
+<h1>Bread Production Calculator</h1>
+
             <!-- Input Section -->
             <div class="input-section">
                 <!-- White Bread -->
@@ -1189,6 +1221,48 @@ function generateInfoSection(weatherData) {
     </table>
     `;
 }
+        // Update Date and Time
+function updateDateTime() {
+    document.getElementById('current-date').textContent = new Date().toLocaleString('en-GB', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+    });
+}
+
+// Fetch Weather Data
+async function fetchWeather() {
+    try {
+        const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=51.51&longitude=-0.13&current=temperature_2m,relative_humidity_2m,weather_code');
+        if (!response.ok) throw new Error('Weather fetch failed');
+        const data = await response.json();
+        
+        document.getElementById('weather-temp').textContent = Math.round(data.current.temperature_2m);
+        document.getElementById('weather-humidity').textContent = data.current.relative_humidity_2m;
+        document.getElementById('weather-condition').textContent = getWeatherCondition(data.current.weather_code);
+    } catch (error) {
+        document.getElementById('weather-condition').textContent = 'Unavailable';
+    }
+}
+
+// Convert Weather Codes to Text
+function getWeatherCondition(code) {
+    const weatherCodes = {
+        0: 'Clear sky', 1: 'Mainly clear', 2: 'Partly cloudy', 3: 'Overcast',
+        45: 'Foggy', 48: 'Depositing rime fog', 51: 'Light drizzle', 53: 'Moderate drizzle',
+        55: 'Dense drizzle', 61: 'Slight rain', 63: 'Moderate rain', 65: 'Heavy rain',
+        71: 'Slight snow', 73: 'Moderate snow', 75: 'Heavy snow', 80: 'Rain showers',
+        81: 'Moderate rain showers', 82: 'Violent rain showers', 85: 'Snow showers',
+        86: 'Heavy snow showers', 95: 'Thunderstorm', 96: 'Thunderstorm with slight hail',
+        99: 'Thunderstorm with heavy hail'
+    };
+    return weatherCodes[code] || 'Unknown';
+}
+
+// Initialize on Page Load
+document.addEventListener('DOMContentLoaded', () => {
+    updateDateTime();
+    fetchWeather();
+});
+
 </script>
 </body>
 </html>
