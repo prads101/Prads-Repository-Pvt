@@ -37,6 +37,13 @@ body {
     color: var(--text);
     padding: 20px;
 }
+        /* Print Header */
+.print-header {
+    text-align: center;
+    font-size: 14pt;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: none; /* Hidden by default, shown only when printed*/
 
 /* Layout and Container Styles */
 .container {
@@ -309,14 +316,22 @@ button {
     }
 
     body {
-        font-size: 14pt !important;
+        font-size: 12pt !important;
         margin: 0 !important;
         padding: 0 !important;
         color: black !important;
     }
+    .print-header {
+        display: block;
+        margin-bottom: 15mm;
+    }
+
+    .no-print {
+        display: none !important;
+    }
 
     h1 {
-        font-size: 13pt !important;
+        font-size: 14pt !important;
         text-align: center;
         margin-bottom: 5mm;
     }
@@ -562,6 +577,24 @@ button {
         <div class="breads-list"></div>
     </div>
 </div>
+    <!-- Print Header -->
+    <div class="print-header">
+        <span id="print-date">Fetching Date...</span> | 
+        <span id="print-location">London, UK</span> | 
+        <span id="print-weather">Fetching Weather...</span>
+    </div>
+
+    <div class="no-print">
+        <!-- Your existing input section HTML -->
+    </div>
+
+    <!-- Output Section -->
+    <div class="output-wrapper">
+        <div id="output-section" class="output-section">
+            <div class="recipe-tables"></div>
+            <div class="breads-list"></div>
+        </div>
+    </div>
     <script>
 // Utility functions
 function getInputValue(id) {
@@ -589,6 +622,44 @@ function formatBags(grams) {
     const bags = grams / 16000;
     if (bags < 0.1) return '';
     return `(${bags.toFixed(1)} bag${bags > 1.1 ? 's' : ''})`;
+}
+        // Update print header
+function updatePrintHeader() {
+    document.getElementById('print-date').textContent = new Date().toLocaleString('en-GB', {
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric'
+    });
+
+    fetchWeather().then(weather => {
+        document.getElementById('print-weather').textContent = 
+            `${weather.temperature}°C, ${weather.condition}`;
+    });
+}
+
+async function fetchWeather() {
+    try {
+        const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=51.51&longitude=-0.13&current=temperature_2m,weather_code');
+        if (!response.ok) throw new Error('Weather fetch failed');
+        const data = await response.json();
+        
+        return {
+            temperature: Math.round(data.current.temperature_2m),
+            condition: getWeatherCondition(data.current.weather_code)
+        };
+    } catch (error) {
+        return { temperature: '--', condition: 'Unavailable' };
+    }
+}
+
+function getWeatherCondition(code) {
+    const weatherCodes = {
+        0: 'Clear sky', 1: 'Mainly clear', 2: 'Partly cloudy', 3: 'Overcast',
+        45: 'Foggy', 48: 'Rime fog', 51: 'Light drizzle', 53: 'Moderate drizzle',
+        55: 'Dense drizzle', 61: 'Slight rain', 63: 'Moderate rain', 65: 'Heavy rain'
+    };
+    return weatherCodes[code] || 'Unknown';
 }
 // Modify the start of your existing calculateRecipe function
 async function calculateRecipe() {
