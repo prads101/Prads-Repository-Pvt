@@ -446,6 +446,8 @@ function calculateWhiteRecipe(totalDoughWeight) {
     const salt = 20 * scaleFactor;
     const yeast = 20 * scaleFactor;
     const oil = 13 * scaleFactor;
+    const s500 = 13 * scaleFactor;  // S500 is now separate
+    const breadFat = 50 * scaleFactor; // Added bread fat at 5%
     
     return {
         flour,
@@ -453,13 +455,17 @@ function calculateWhiteRecipe(totalDoughWeight) {
         salt,
         yeast,
         oil,
+        s500,
+        breadFat,
         total: totalDoughWeight,
         percentages: {
             flour: 100.0,
             water: (water / flour) * 100,
             salt: (salt / flour) * 100,
             yeast: (yeast / flour) * 100,
-            oil: (oil / flour) * 100
+            oil: (oil / flour) * 100,
+            s500: (s500 / flour) * 100,
+            breadFat: (breadFat / flour) * 100
         }
     };
 }
@@ -498,29 +504,25 @@ function calculateGranaryRecipe(totalDoughWeight) {
     const granaryFlour = 500 * scaleFactor;
     const totalFlour = heygateFlour + granaryFlour;
     const water = 600 * scaleFactor;
-    const salt = 20 * scaleFactor;
     const yeast = 25 * scaleFactor;
-    const oil = 13 * scaleFactor;
+    // Oil and salt removed
     
     return {
         heygate: heygateFlour,
         granary: granaryFlour,
         water,
-        salt,
         yeast,
-        oil,
         total: totalDoughWeight,
         percentages: {
             heygate: (heygateFlour / totalFlour) * 100,
-            granary: (granaryFlour / totalFlour) * 100,
+            granary: (granaryFlour / totalFlour) * 100, // Fixed reference to granaryFlour
             water: (water / totalFlour) * 100,
-            salt: (salt / totalFlour) * 100,
-            yeast: (yeast / totalFlour) * 100,
-            oil: (oil / totalFlour) * 100
+            yeast: (yeast / totalFlour) * 100
         }
     };
 }
 
+// Updated function to generate recipe tables
 function generateRecipeTable(title, recipe) {
     if (recipe.total === 0) return '';
     
@@ -541,6 +543,7 @@ function generateRecipeTable(title, recipe) {
             </tr>
         `;
         
+        // White bread table with separated oil and S500, plus bread fat option
         return `
             <table class="recipe-table">
                 <thead>
@@ -560,9 +563,60 @@ function generateRecipeTable(title, recipe) {
                         <td>${formatPercentage(recipe.percentages.yeast)}</td>
                     </tr>
                     <tr>
-                        <td>Oil (S500)</td>
+                        <td>Oil</td>
                         <td>${formatWeight(recipe.oil)}</td>
                         <td>${formatPercentage(recipe.percentages.oil)}</td>
+                    </tr>
+                    <tr>
+                        <td>S500</td>
+                        <td>${formatWeight(recipe.s500)}</td>
+                        <td>${formatPercentage(recipe.percentages.s500)}</td>
+                    </tr>
+                    <tr>
+                        <td>OR Bread Fat</td>
+                        <td>${formatWeight(recipe.breadFat)}</td>
+                        <td>${formatPercentage(recipe.percentages.breadFat)}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Dough Weight</strong></td>
+                        <td><strong>${formatWeight(recipe.total)}</strong></td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
+    } else if (title.includes('Granary')) {
+        // Granary bread recipe - no oil or salt
+        rows += `
+            <tr>
+                <td>Heygate Flour</td>
+                <td>${formatWeight(recipe.heygate)}</td>
+                <td>${formatPercentage(recipe.percentages.heygate)}</td>
+            </tr>
+            <tr>
+                <td>Granary Flour</td>
+                <td>${formatWeight(recipe.granary)}</td>
+                <td>${formatPercentage(recipe.percentages.granary)}</td>
+            </tr>
+            <tr>
+                <td>Water</td>
+                <td>${formatVolume(recipe.water)}</td>
+                <td>${formatPercentage(recipe.percentages.water)}</td>
+            </tr>
+        `;
+        
+        return `
+            <table class="recipe-table">
+                <thead>
+                    <tr>
+                        <th colspan="3">${title}</th>
+                    </tr>
+                </thead>
+                <tbody>${rows}
+                    <tr>
+                        <td>Yeast (Fresh)</td>
+                        <td>${formatWeight(recipe.yeast)}</td>
+                        <td>${formatPercentage(recipe.percentages.yeast)}</td>
                     </tr>
                     <tr>
                         <td><strong>Total Dough Weight</strong></td>
@@ -573,7 +627,7 @@ function generateRecipeTable(title, recipe) {
             </table>
         `;
     } else {
-        // Wholemeal/Granary bread recipes - no bags info
+        // Wholemeal bread recipe - keep original
         rows += `
             <tr>
                 <td>Heygate Flour</td>
@@ -581,9 +635,9 @@ function generateRecipeTable(title, recipe) {
                 <td>${formatPercentage(recipe.percentages.heygate)}</td>
             </tr>
             <tr>
-                <td>${title.includes('Wholemeal') ? 'Wholemeal' : 'Granary'} Flour</td>
-                <td>${formatWeight(recipe.wholemeal || recipe.granary)}</td>
-                <td>${formatPercentage(recipe.percentages.wholemeal || recipe.percentages.granary)}</td>
+                <td>Wholemeal Flour</td>
+                <td>${formatWeight(recipe.wholemeal)}</td>
+                <td>${formatPercentage(recipe.percentages.wholemeal)}</td>
             </tr>
             <tr>
                 <td>Water</td>
