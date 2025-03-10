@@ -500,14 +500,16 @@ function calculateGranaryDoughWeight(inputs) {
            (inputs.granary.tin * 907);
 }
 
-// Recipe calculations
-function calculateWhiteRecipe(totalDoughWeight) {
+// Recipe calculations with 10% extra dough
+function calculateWhiteRecipe(targetDoughWeight) {
+    const totalDoughWeight = targetDoughWeight * 1.1; // Add 10% extra
     const scaleFactor = totalDoughWeight / 1600;
+    
     const flour = 1000 * scaleFactor;
     const water = 550 * scaleFactor;
     const salt = 20 * scaleFactor;
     const yeast = 20 * scaleFactor;
-    const breadFat = 50 * scaleFactor; // Changed to 5% of flour
+    const breadFat = 50 * scaleFactor; // 5% of flour
     const s500 = 13 * scaleFactor;
     
     return {
